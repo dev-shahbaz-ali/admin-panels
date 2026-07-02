@@ -20,7 +20,7 @@ export default function BlogCard({ blog, onEdit, onDelete, onTogglePublish }: Bl
       className="group bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden hover:border-gray-600 transition-all duration-300"
     >
       {/* Image */}
-      <div className="relative aspect-[16/9] bg-gradient-to-br from-blue-500/20 to-purple-500/20 overflow-hidden">
+      <div className="relative aspect-[16/9] bg-blue-500/10 overflow-hidden">
         {blog.image && blog.image !== "/placeholder-blog.jpg" ? (
           <img
             src={blog.image}

@@ -152,7 +152,7 @@ export default function SettingsPage() {
             {/* Account Info */}
             <div className="mt-6 pt-6 border-t border-gray-700/50">
               <div className="flex items-center gap-3 px-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
                   <span className="text-sm font-bold text-white">
                     {profile.name?.charAt(0) || "U"}
                   </span>

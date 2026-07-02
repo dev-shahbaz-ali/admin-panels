@@ -21,32 +21,23 @@ export default function StatsCard({
   trend,
   color = "blue",
 }: StatsCardProps) {
-  const colorClasses = {
-    blue: "from-blue-500/20 to-blue-500/5 border-blue-500/20",
-    purple: "from-purple-500/20 to-purple-500/5 border-purple-500/20",
-    green: "from-green-500/20 to-green-500/5 border-green-500/20",
-    orange: "from-orange-500/20 to-orange-500/5 border-orange-500/20",
-    red: "from-red-500/20 to-red-500/5 border-red-500/20",
-  };
-
-  const iconColors = {
-    blue: "text-blue-400 bg-blue-500/20",
-    purple: "text-purple-400 bg-purple-500/20",
-    green: "text-green-400 bg-green-500/20",
-    orange: "text-orange-400 bg-orange-500/20",
-    red: "text-red-400 bg-red-500/20",
+  const getIconBgColor = (color: string) => {
+    switch(color) {
+      case 'blue': return 'bg-blue-600';
+      case 'purple': return 'bg-purple-600';
+      case 'green': return 'bg-green-600';
+      case 'orange': return 'bg-orange-600';
+      case 'red': return 'bg-red-600';
+      default: return 'bg-blue-600';
+    }
   };
 
   return (
     <motion.div
       whileHover={{ y: -4, scale: 1.02 }}
       transition={{ type: "spring", damping: 20 }}
-      className={cn(
-        "relative overflow-hidden rounded-2xl border bg-gradient-to-br p-6 backdrop-blur-sm",
-        colorClasses[color as keyof typeof colorClasses]
-      )}
+      className="relative overflow-hidden rounded-2xl border border-gray-700 p-6 bg-gray-800"
     >
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/5 to-transparent rounded-full -translate-y-1/2 translate-x-1/2" />
       <div className="relative flex items-start justify-between">
         <div>
           <p className="text-sm font-medium text-gray-400">{title}</p>
@@ -65,9 +56,9 @@ export default function StatsCard({
         </div>
         <div className={cn(
           "rounded-xl p-3",
-          iconColors[color as keyof typeof iconColors]
+          getIconBgColor(color)
         )}>
-          <Icon className="h-6 w-6" />
+          <Icon className="h-6 w-6 text-white" />
         </div>
       </div>
     </motion.div>

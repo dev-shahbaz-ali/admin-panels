@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Plus, Upload, XCircle } from "lucide-react";
+import { X, Plus, Upload, XCircle, Hash, Tag, Layers, TrendingUp } from "lucide-react";
 
 interface AddSkillModalProps {
   isOpen: boolean;
@@ -97,7 +97,7 @@ export default function AddSkillModal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-black"
             onClick={onClose}
           />
 
@@ -106,21 +106,30 @@ export default function AddSkillModal({
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl border border-gray-700/50 shadow-2xl"
+            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-gray-800 rounded-2xl border border-gray-700 shadow-2xl"
           >
             {/* Header */}
-            <div className="sticky top-0 z-10 flex items-center justify-between p-6 bg-gray-900/95 backdrop-blur-sm border-b border-gray-700/50">
-              <div>
-                <h2 className="text-2xl font-bold text-white">
-                  {isEditing ? "Edit Skill" : "Add New Skill"}
-                </h2>
-                <p className="text-sm text-gray-400 mt-1">
-                  {isEditing ? "Update your skill details" : "Add a new skill to your portfolio"}
-                </p>
+            <div className="sticky top-0 z-10 flex items-center justify-between p-6 bg-gray-800 border-b border-gray-700">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-600 rounded-lg">
+                  {isEditing ? (
+                    <TrendingUp className="h-5 w-5 text-white" />
+                  ) : (
+                    <Plus className="h-5 w-5 text-white" />
+                  )}
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-white">
+                    {isEditing ? "Edit Skill" : "Add New Skill"}
+                  </h2>
+                  <p className="text-sm text-gray-400 mt-1">
+                    {isEditing ? "Update your skill details" : "Add a new skill to your portfolio"}
+                  </p>
+                </div>
               </div>
               <button
                 onClick={onClose}
-                className="p-2 rounded-lg hover:bg-gray-700/50 transition-colors text-gray-400 hover:text-white"
+                className="p-2 rounded-lg hover:bg-gray-700 transition-colors text-gray-400 hover:text-white"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -130,7 +139,8 @@ export default function AddSkillModal({
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
               {/* Skill Name */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+                  <Hash className="h-4 w-4" />
                   Skill Name *
                 </label>
                 <input
@@ -140,20 +150,21 @@ export default function AddSkillModal({
                   onChange={handleInputChange}
                   placeholder="e.g., React, TypeScript, Node.js"
                   required
-                  className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                  className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-all"
                 />
               </div>
 
               {/* Category */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+                  <Layers className="h-4 w-4" />
                   Category
                 </label>
                 <select
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                  className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white focus:outline-none focus:border-blue-500 transition-all"
                 >
                   {categories.map((cat) => (
                     <option key={cat} value={cat}>
@@ -165,7 +176,8 @@ export default function AddSkillModal({
 
               {/* Level */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+                  <TrendingUp className="h-4 w-4" />
                   Proficiency Level: {formData.level}%
                 </label>
                 <div className="flex items-center gap-4">
@@ -176,9 +188,9 @@ export default function AddSkillModal({
                     onChange={handleLevelChange}
                     min="0"
                     max="100"
-                    className="flex-1 h-2 bg-gray-700 rounded-full appearance-none cursor-pointer accent-blue-500"
+                    className="flex-1 h-2 bg-gray-600 rounded-full appearance-none cursor-pointer accent-blue-600"
                     style={{
-                      background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${formData.level}%, #374151 ${formData.level}%, #374151 100%)`,
+                      background: `linear-gradient(to right, #2563EB 0%, #2563EB ${formData.level}%, #4B5563 ${formData.level}%, #4B5563 100%)`,
                     }}
                   />
                   <span className="text-sm font-medium text-white min-w-[40px] text-center">
@@ -194,7 +206,8 @@ export default function AddSkillModal({
 
               {/* Icon/Emoji */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+                  <Tag className="h-4 w-4" />
                   Icon or Emoji
                 </label>
                 <input
@@ -203,14 +216,15 @@ export default function AddSkillModal({
                   value={formData.icon}
                   onChange={handleInputChange}
                   placeholder="e.g., ⚛️, 📱, 🎨"
-                  className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                  className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-all"
                 />
                 <p className="text-xs text-gray-500 mt-1">Add an emoji or icon to represent your skill</p>
               </div>
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+                  <Tag className="h-4 w-4" />
                   Description (Optional)
                 </label>
                 <textarea
@@ -219,23 +233,23 @@ export default function AddSkillModal({
                   onChange={handleInputChange}
                   rows={3}
                   placeholder="Brief description of your experience with this skill..."
-                  className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none"
+                  className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-all resize-none"
                 />
               </div>
 
               {/* Form Actions */}
-              <div className="flex items-center gap-3 pt-4 border-t border-gray-700/50">
+              <div className="flex items-center gap-3 pt-4 border-t border-gray-700">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 px-4 py-2.5 bg-gray-700/50 hover:bg-gray-700/70 rounded-xl text-white font-medium transition-colors"
+                  className="flex-1 px-4 py-2.5 bg-gray-700 hover:bg-gray-600 rounded-xl text-white font-medium transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg hover:shadow-blue-500/25 rounded-xl text-white font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-xl text-white font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>

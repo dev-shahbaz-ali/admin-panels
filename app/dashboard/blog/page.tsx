@@ -2,10 +2,36 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Search, Filter, Grid, List, Calendar } from "lucide-react";
+import {
+  Plus,
+  Search,
+  Filter,
+  Grid,
+  List,
+  Calendar,
+  Edit,
+  Trash2,
+  Eye,
+  EyeOff,
+  Tag,
+  FileText,
+  BookOpen,
+  Clock,
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+  TrendingUp,
+  Users,
+  Share2,
+  Heart,
+  MessageCircle,
+  Sparkles,
+  Layers,
+  PenTool,
+  Hash,
+  Image,
+} from "lucide-react";
 import AddBlogModal from "@/components/blog/AddBlogModal";
-import BlogCard from "@/components/blog/BlogCard";
-import BlogListView from "@/components/blog/BlogListView";
 
 // Mock initial blog posts
 const initialBlogs = [
@@ -13,51 +39,66 @@ const initialBlogs = [
     id: "1",
     title: "Getting Started with Next.js 14",
     excerpt: "Learn how to build modern web applications with Next.js 14 and React Server Components.",
-    content: "Next.js 14 introduces several exciting features including Server Actions, Partial Prerendering, and improved performance. In this comprehensive guide, we'll explore how to leverage these features to build fast, scalable applications.",
+    content: "Next.js 14 introduces several exciting features including Server Actions, Partial Prerendering, and improved performance...",
     tags: ["Next.js", "React", "JavaScript"],
     image: "/placeholder-blog.jpg",
     published: true,
     createdAt: "2024-01-20T10:00:00",
+    views: 1234,
+    likes: 89,
+    comments: 23,
   },
   {
     id: "2",
     title: "Mastering Tailwind CSS",
     excerpt: "Advanced techniques and best practices for styling with Tailwind CSS.",
-    content: "Tailwind CSS has revolutionized how we style web applications. This guide covers advanced topics like custom configurations, plugins, and performance optimization techniques.",
+    content: "Tailwind CSS has revolutionized how we style web applications...",
     tags: ["TailwindCSS", "CSS", "Styling"],
     image: "/placeholder-blog.jpg",
     published: true,
     createdAt: "2024-01-15T14:30:00",
+    views: 987,
+    likes: 67,
+    comments: 15,
   },
   {
     id: "3",
     title: "TypeScript Best Practices",
     excerpt: "Essential TypeScript patterns and practices for professional developers.",
-    content: "TypeScript has become essential for modern JavaScript development. Learn about advanced types, utility types, and best practices for maintaining type safety in large codebases.",
+    content: "TypeScript has become essential for modern JavaScript development...",
     tags: ["TypeScript", "JavaScript", "Programming"],
     image: "/placeholder-blog.jpg",
     published: false,
     createdAt: "2024-01-10T09:15:00",
+    views: 0,
+    likes: 0,
+    comments: 0,
   },
   {
     id: "4",
     title: "Building a Design System",
     excerpt: "Creating a scalable design system with React and Storybook.",
-    content: "Design systems are crucial for maintaining consistency across applications. This tutorial covers creating reusable components, documenting with Storybook, and managing design tokens.",
+    content: "Design systems are crucial for maintaining consistency across applications...",
     tags: ["React", "Design Systems", "Storybook"],
     image: "/placeholder-blog.jpg",
     published: true,
     createdAt: "2024-01-05T16:45:00",
+    views: 756,
+    likes: 45,
+    comments: 12,
   },
   {
     id: "5",
     title: "Performance Optimization in React",
     excerpt: "Techniques to optimize React applications for better performance and user experience.",
-    content: "React performance optimization is crucial for large applications. Learn about memoization, code splitting, lazy loading, and using the React DevTools profiler effectively.",
+    content: "React performance optimization is crucial for large applications...",
     tags: ["React", "Performance", "Optimization"],
     image: "/placeholder-blog.jpg",
     published: false,
     createdAt: "2024-01-01T11:20:00",
+    views: 0,
+    likes: 0,
+    comments: 0,
   },
 ];
 
@@ -96,7 +137,12 @@ export default function BlogPage() {
   }, [blogs, searchTerm, statusFilter]);
 
   const handleAddBlog = (newBlog: any) => {
-    setBlogs((prev) => [newBlog, ...prev]);
+    setBlogs((prev) => [{
+      ...newBlog,
+      views: 0,
+      likes: 0,
+      comments: 0,
+    }, ...prev]);
     setShowAddModal(false);
   };
 
@@ -108,7 +154,7 @@ export default function BlogPage() {
   const handleUpdateBlog = (updatedBlog: any) => {
     setBlogs((prev) =>
       prev.map((blog) =>
-        blog.id === updatedBlog.id ? updatedBlog : blog
+        blog.id === updatedBlog.id ? { ...updatedBlog, views: blog.views, likes: blog.likes, comments: blog.comments } : blog
       )
     );
     setEditingBlog(null);
@@ -133,14 +179,30 @@ export default function BlogPage() {
 
   const publishedCount = blogs.filter((b) => b.published).length;
   const draftCount = blogs.filter((b) => !b.published).length;
+  const totalViews = blogs.reduce((acc, blog) => acc + (blog.views || 0), 0);
+  const totalLikes = blogs.reduce((acc, blog) => acc + (blog.likes || 0), 0);
+
+  // Helper function for status colors
+  const getStatusColor = (published: boolean) => {
+    return published ? "bg-green-600" : "bg-yellow-600";
+  };
+
+  const getStatusIcon = (published: boolean) => {
+    return published ? <CheckCircle className="h-3 w-3" /> : <AlertCircle className="h-3 w-3" />;
+  };
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-white">Blog Posts</h1>
-          <p className="text-gray-400 mt-1">Manage your blog content</p>
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-blue-600 rounded-lg">
+            <BookOpen className="h-6 w-6 text-white" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-white">Blog Posts</h1>
+            <p className="text-gray-400 mt-1">Manage your blog content</p>
+          </div>
         </div>
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -149,7 +211,7 @@ export default function BlogPage() {
             setEditingBlog(null);
             setShowAddModal(true);
           }}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl text-white font-medium hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-200"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-xl text-white font-medium hover:bg-blue-700 transition-all duration-200"
         >
           <Plus className="h-4 w-4" />
           New Post
@@ -157,23 +219,60 @@ export default function BlogPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-400">Total Posts</span>
-            <span className="text-2xl font-bold text-white">{blogs.length}</span>
+            <div>
+              <span className="text-sm text-gray-400">Total Posts</span>
+              <div className="text-2xl font-bold text-white mt-1">{blogs.length}</div>
+            </div>
+            <div className="p-2 bg-blue-600 rounded-lg">
+              <FileText className="h-5 w-5 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4">
+        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-400">Published</span>
-            <span className="text-2xl font-bold text-green-400">{publishedCount}</span>
+            <div>
+              <span className="text-sm text-gray-400">Published</span>
+              <div className="text-2xl font-bold text-green-400 mt-1">{publishedCount}</div>
+            </div>
+            <div className="p-2 bg-green-600 rounded-lg">
+              <CheckCircle className="h-5 w-5 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4">
+        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-400">Drafts</span>
-            <span className="text-2xl font-bold text-yellow-400">{draftCount}</span>
+            <div>
+              <span className="text-sm text-gray-400">Drafts</span>
+              <div className="text-2xl font-bold text-yellow-400 mt-1">{draftCount}</div>
+            </div>
+            <div className="p-2 bg-yellow-600 rounded-lg">
+              <PenTool className="h-5 w-5 text-white" />
+            </div>
+          </div>
+        </div>
+        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="text-sm text-gray-400">Total Views</span>
+              <div className="text-2xl font-bold text-white mt-1">{totalViews.toLocaleString()}</div>
+            </div>
+            <div className="p-2 bg-purple-600 rounded-lg">
+              <Eye className="h-5 w-5 text-white" />
+            </div>
+          </div>
+        </div>
+        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="text-sm text-gray-400">Total Likes</span>
+              <div className="text-2xl font-bold text-white mt-1">{totalLikes.toLocaleString()}</div>
+            </div>
+            <div className="p-2 bg-red-600 rounded-lg">
+              <Heart className="h-5 w-5 text-white" />
+            </div>
           </div>
         </div>
       </div>
@@ -187,7 +286,7 @@ export default function BlogPage() {
             placeholder="Search blog posts..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 transition-colors"
+            className="w-full pl-9 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
           />
         </div>
         <div className="flex items-center gap-2">
@@ -195,7 +294,7 @@ export default function BlogPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as any)}
-            className="px-3 py-2 bg-gray-800/50 border border-gray-700 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50 transition-colors"
+            className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500 transition-colors"
           >
             <option value="all">All Posts</option>
             <option value="published">Published</option>
@@ -203,13 +302,13 @@ export default function BlogPage() {
           </select>
 
           {/* View Toggle */}
-          <div className="flex rounded-lg overflow-hidden border border-gray-700">
+          <div className="flex rounded-lg overflow-hidden border border-gray-600">
             <button
               onClick={() => setView("grid")}
               className={`p-2 transition-colors ${
                 view === "grid"
-                  ? "bg-blue-500/20 text-blue-400"
-                  : "bg-transparent text-gray-400 hover:text-white"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-700 text-gray-400 hover:text-white"
               }`}
             >
               <Grid className="h-4 w-4" />
@@ -218,8 +317,8 @@ export default function BlogPage() {
               onClick={() => setView("list")}
               className={`p-2 transition-colors ${
                 view === "list"
-                  ? "bg-blue-500/20 text-blue-400"
-                  : "bg-transparent text-gray-400 hover:text-white"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-700 text-gray-400 hover:text-white"
               }`}
             >
               <List className="h-4 w-4" />
@@ -234,12 +333,15 @@ export default function BlogPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-12"
+            className="text-center py-12 bg-gray-800 border border-gray-700 rounded-2xl"
           >
-            <div className="text-gray-400">
-              {searchTerm || statusFilter !== "all" 
-                ? "No blog posts match your filters" 
-                : "No blog posts yet. Create your first post!"}
+            <div className="flex flex-col items-center">
+              <BookOpen className="h-16 w-16 text-gray-600 mb-4" />
+              <div className="text-gray-400">
+                {searchTerm || statusFilter !== "all" 
+                  ? "No blog posts match your filters" 
+                  : "No blog posts yet. Create your first post!"}
+              </div>
             </div>
           </motion.div>
         ) : view === "grid" ? (
@@ -251,13 +353,128 @@ export default function BlogPage() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {filteredBlogs.map((blog) => (
-              <BlogCard
+              <motion.div
                 key={blog.id}
-                blog={blog}
-                onEdit={handleEditBlog}
-                onDelete={handleDeleteBlog}
-                onTogglePublish={handleTogglePublish}
-              />
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="group bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden hover:border-gray-600 transition-all duration-300"
+              >
+                {/* Image */}
+                <div className="relative aspect-[16/9] bg-gray-700 overflow-hidden">
+                  {blog.image && blog.image !== "/placeholder-blog.jpg" ? (
+                    <img
+                      src={blog.image}
+                      alt={blog.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gray-700">
+                      <Image className="h-12 w-12 text-gray-500" />
+                    </div>
+                  )}
+                  
+                  {/* Status Badge */}
+                  <div className="absolute top-3 left-3 flex items-center gap-1">
+                    <span className={`flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full text-white ${getStatusColor(blog.published)}`}>
+                      {getStatusIcon(blog.published)}
+                      {blog.published ? "Published" : "Draft"}
+                    </span>
+                  </div>
+
+                  {/* Stats Overlay */}
+                  {blog.published && (
+                    <div className="absolute bottom-3 left-3 flex items-center gap-3 bg-black/60 rounded-lg px-2 py-1">
+                      <span className="flex items-center gap-1 text-xs text-white">
+                        <Eye className="h-3 w-3" />
+                        {blog.views || 0}
+                      </span>
+                      <span className="flex items-center gap-1 text-xs text-white">
+                        <Heart className="h-3 w-3" />
+                        {blog.likes || 0}
+                      </span>
+                      <span className="flex items-center gap-1 text-xs text-white">
+                        <MessageCircle className="h-3 w-3" />
+                        {blog.comments || 0}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Action Buttons */}
+                  <div className="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button
+                      onClick={() => handleTogglePublish(blog.id)}
+                      className="p-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white transition-colors"
+                      title={blog.published ? "Unpublish" : "Publish"}
+                    >
+                      {blog.published ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                    <button
+                      onClick={() => handleEditBlog(blog)}
+                      className="p-1.5 rounded-lg bg-gray-800 hover:bg-blue-600 text-gray-300 hover:text-white transition-colors"
+                    >
+                      <Edit className="h-4 w-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteBlog(blog.id)}
+                      className="p-1.5 rounded-lg bg-gray-800 hover:bg-red-600 text-gray-300 hover:text-white transition-colors"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-4">
+                  <h3 className="font-semibold text-white group-hover:text-blue-400 transition-colors line-clamp-2">
+                    {blog.title}
+                  </h3>
+                  <p className="text-sm text-gray-400 mt-1 line-clamp-2">
+                    {blog.excerpt}
+                  </p>
+                  
+                  {/* Tags */}
+                  {blog.tags && blog.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mt-3">
+                      {blog.tags.slice(0, 3).map((tag: string) => (
+                        <span
+                          key={tag}
+                          className="flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-gray-700 text-gray-300"
+                        >
+                          <Hash className="h-3 w-3" />
+                          {tag}
+                        </span>
+                      ))}
+                      {blog.tags.length > 3 && (
+                        <span className="px-2 py-0.5 text-xs rounded-full bg-gray-700 text-gray-300">
+                          +{blog.tags.length - 3}
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Date */}
+                  <div className="flex items-center gap-3 mt-3 text-xs text-gray-500">
+                    <span className="flex items-center gap-1">
+                      <Calendar className="h-3 w-3" />
+                      {new Date(blog.createdAt).toLocaleDateString()}
+                    </span>
+                    {blog.published && (
+                      <>
+                        <span>•</span>
+                        <span className="flex items-center gap-1">
+                          <TrendingUp className="h-3 w-3" />
+                          {blog.views || 0} views
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </motion.div>
         ) : (
@@ -266,20 +483,155 @@ export default function BlogPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            className="bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden"
           >
-            <BlogListView
-              blogs={filteredBlogs}
-              onEdit={handleEditBlog}
-              onDelete={handleDeleteBlog}
-              onTogglePublish={handleTogglePublish}
-            />
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-700">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <div className="flex items-center gap-2">
+                        <FileText className="h-4 w-4" />
+                        Title
+                      </div>
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <div className="flex items-center gap-2">
+                        <Hash className="h-4 w-4" />
+                        Tags
+                      </div>
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4" />
+                        Status
+                      </div>
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <div className="flex items-center gap-2">
+                        <Eye className="h-4 w-4" />
+                        Views
+                      </div>
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4" />
+                        Date
+                      </div>
+                    </th>
+                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <div className="flex items-center justify-end gap-2">
+                        <PenTool className="h-4 w-4" />
+                        Actions
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-700">
+                  {filteredBlogs.map((blog) => (
+                    <motion.tr
+                      key={blog.id}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="hover:bg-gray-700 transition-colors"
+                    >
+                      <td className="px-6 py-4">
+                        <div>
+                          <div className="text-sm font-medium text-white line-clamp-1">
+                            {blog.title}
+                          </div>
+                          <div className="text-sm text-gray-400 line-clamp-1">
+                            {blog.excerpt}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex flex-wrap gap-1">
+                          {blog.tags && blog.tags.slice(0, 2).map((tag: string) => (
+                            <span
+                              key={tag}
+                              className="flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-gray-700 text-gray-300"
+                            >
+                              <Hash className="h-3 w-3" />
+                              {tag}
+                            </span>
+                          ))}
+                          {blog.tags && blog.tags.length > 2 && (
+                            <span className="px-2 py-0.5 text-xs rounded-full bg-gray-700 text-gray-300">
+                              +{blog.tags.length - 2}
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`flex items-center gap-1 px-2 py-1 text-xs rounded-full text-white ${getStatusColor(blog.published)}`}>
+                          {getStatusIcon(blog.published)}
+                          {blog.published ? "Published" : "Draft"}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="flex items-center gap-1 text-sm text-gray-300">
+                          <Eye className="h-3 w-3" />
+                          {blog.views || 0}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-400">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="h-3 w-3" />
+                          {new Date(blog.createdAt).toLocaleDateString()}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => handleTogglePublish(blog.id)}
+                            className="p-1 rounded hover:bg-gray-600 text-gray-400 hover:text-white transition-colors"
+                            title={blog.published ? "Unpublish" : "Publish"}
+                          >
+                            {blog.published ? (
+                              <EyeOff className="h-4 w-4" />
+                            ) : (
+                              <Eye className="h-4 w-4" />
+                            )}
+                          </button>
+                          <button
+                            onClick={() => handleEditBlog(blog)}
+                            className="p-1 rounded hover:bg-blue-600 text-gray-400 hover:text-white transition-colors"
+                          >
+                            <Edit className="h-4 w-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteBlog(blog.id)}
+                            className="p-1 rounded hover:bg-red-600 text-gray-400 hover:text-white transition-colors"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Blog count */}
-      <div className="text-sm text-gray-500">
-        Showing {filteredBlogs.length} of {blogs.length} blog posts
+      <div className="flex items-center justify-between text-sm text-gray-500">
+        <span>Showing {filteredBlogs.length} of {blogs.length} blog posts</span>
+        <div className="flex items-center gap-2">
+          <span className="flex items-center gap-1">
+            <CheckCircle className="h-3 w-3 text-green-400" />
+            {publishedCount} published
+          </span>
+          <span>•</span>
+          <span className="flex items-center gap-1">
+            <PenTool className="h-3 w-3 text-yellow-400" />
+            {draftCount} drafts
+          </span>
+        </div>
       </div>
 
       {/* Add/Edit Blog Modal */}

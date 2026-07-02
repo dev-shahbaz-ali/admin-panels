@@ -27,7 +27,7 @@ export default function MessageListItem({ message, isSelected, onClick }: Messag
     >
       <div className="flex items-start gap-3">
         <div className="flex-shrink-0">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
             <User className="h-5 w-5 text-white" />
           </div>
         </div>

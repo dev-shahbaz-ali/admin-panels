@@ -107,7 +107,7 @@ export default function ProjectsPage() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setShowAddModal(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl text-white font-medium hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-200"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-xl text-white font-medium hover:bg-blue-700 transition-all duration-200"
         >
           <Plus className="h-4 w-4" />
           Add Project
@@ -170,7 +170,7 @@ export default function ProjectsPage() {
               transition={{ delay: index * 0.05 }}
               className="group bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden hover:border-gray-600 transition-all duration-300"
             >
-              <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-purple-500/20 relative">
+              <div className="aspect-video bg-blue-500/10 relative">
                 {/* Action buttons overlay */}
                 <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button

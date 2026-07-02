@@ -69,7 +69,7 @@ export default function MessageDetail({
         {/* Sender Info */}
         <div className="flex items-start gap-4">
           <div className="flex-shrink-0">
-            <div className="w-14 h-14 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+            <div className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center">
               <User className="h-6 w-6 text-white" />
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function MessageDetail({
               placeholder="Type a quick reply..."
               className="flex-1 px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 transition-colors"
             />
-            <button className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg text-white font-medium hover:shadow-lg hover:shadow-blue-500/25 transition-all">
+            <button className="px-4 py-2 bg-blue-600 rounded-lg text-white font-medium hover:bg-blue-700 transition-all">
               Send
             </button>
           </div>

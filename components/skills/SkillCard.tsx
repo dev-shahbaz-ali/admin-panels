@@ -83,14 +83,14 @@ export default function SkillCard({ skill, onEdit, onDelete }: SkillCardProps) {
             initial={{ width: 0 }}
             animate={{ width: `${skill.level}%` }}
             transition={{ duration: 1, delay: 0.2 }}
-            className={`h-full rounded-full bg-gradient-to-r ${
+            className={`h-full rounded-full ${
               skill.level >= 80
-                ? "from-green-500 to-emerald-500"
+                ? "bg-green-500"
                 : skill.level >= 60
-                ? "from-blue-500 to-cyan-500"
+                ? "bg-blue-500"
                 : skill.level >= 40
-                ? "from-yellow-500 to-orange-500"
-                : "from-red-500 to-pink-500"
+                ? "bg-yellow-500"
+                : "bg-red-500"
             }`}
           />
         </div>

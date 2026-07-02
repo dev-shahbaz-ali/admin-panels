@@ -11,6 +11,16 @@ import {
   Code2,
   TrendingUp,
   BarChart3,
+  Layers,
+  Award,
+  Sparkles,
+  ChevronDown,
+  SortAsc,
+  SortDesc,
+  Hash,
+  Tag,
+  Star,
+  Zap,
 } from "lucide-react";
 import AddSkillModal from "@/components/skills/AddSkillModal";
 import SkillCard from "@/components/skills/SkillCard";
@@ -165,9 +175,14 @@ export default function SkillsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-white">Skills</h1>
-          <p className="text-gray-400 mt-1">Manage your technical skills</p>
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-blue-600 rounded-lg">
+            <Code2 className="h-6 w-6 text-white" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-white">Skills</h1>
+            <p className="text-gray-400 mt-1">Manage your technical skills</p>
+          </div>
         </div>
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -176,7 +191,7 @@ export default function SkillsPage() {
             setEditingSkill(null);
             setShowAddModal(true);
           }}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl text-white font-medium hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-200"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-xl text-white font-medium hover:bg-blue-700 transition-all duration-200"
         >
           <Plus className="h-4 w-4" />
           Add Skill
@@ -184,35 +199,41 @@ export default function SkillsPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-        <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
           <div className="flex items-center justify-between">
             <div>
               <span className="text-sm text-gray-400">Total Skills</span>
               <div className="text-2xl font-bold text-white mt-1">{totalSkills}</div>
             </div>
-            <Code2 className="h-8 w-8 text-blue-400 opacity-50" />
+            <div className="p-2 bg-blue-600 rounded-lg">
+              <Code2 className="h-5 w-5 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4">
+        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
           <div className="flex items-center justify-between">
             <div>
               <span className="text-sm text-gray-400">Avg Proficiency</span>
               <div className="text-2xl font-bold text-blue-400 mt-1">{averageLevel}%</div>
             </div>
-            <BarChart3 className="h-8 w-8 text-purple-400 opacity-50" />
+            <div className="p-2 bg-purple-600 rounded-lg">
+              <BarChart3 className="h-5 w-5 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4">
+        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
           <div className="flex items-center justify-between">
             <div>
               <span className="text-sm text-gray-400">Categories</span>
               <div className="text-2xl font-bold text-purple-400 mt-1">{categoryCount}</div>
             </div>
-            <Filter className="h-8 w-8 text-green-400 opacity-50" />
+            <div className="p-2 bg-green-600 rounded-lg">
+              <Layers className="h-5 w-5 text-white" />
+            </div>
           </div>
         </div>
-        <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4">
+        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
           <div className="flex items-center justify-between">
             <div>
               <span className="text-sm text-gray-400">Top Skill</span>
@@ -220,7 +241,9 @@ export default function SkillsPage() {
                 {topSkill?.name || "N/A"}
               </div>
             </div>
-            <TrendingUp className="h-8 w-8 text-green-400 opacity-50" />
+            <div className="p-2 bg-yellow-600 rounded-lg">
+              <Award className="h-5 w-5 text-white" />
+            </div>
           </div>
         </div>
       </div>
@@ -234,41 +257,53 @@ export default function SkillsPage() {
             placeholder="Search skills..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 transition-colors"
+            className="w-full pl-9 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
           />
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           {/* Category Filter */}
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-3 py-2 bg-gray-800/50 border border-gray-700 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50 transition-colors"
-          >
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat === "all" ? "All Categories" : cat}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="pl-9 pr-8 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500 transition-colors appearance-none"
+            >
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat === "all" ? "All Categories" : cat}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+          </div>
 
           {/* Sort By */}
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as "name" | "level")}
-            className="px-3 py-2 bg-gray-800/50 border border-gray-700 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50 transition-colors"
-          >
-            <option value="level">Sort by Level</option>
-            <option value="name">Sort by Name</option>
-          </select>
+          <div className="relative">
+            {sortBy === "level" ? (
+              <TrendingUp className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+            ) : (
+              <SortAsc className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+            )}
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as "name" | "level")}
+              className="pl-9 pr-8 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500 transition-colors appearance-none"
+            >
+              <option value="level">Sort by Level</option>
+              <option value="name">Sort by Name</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+          </div>
 
           {/* View Toggle */}
-          <div className="flex rounded-lg overflow-hidden border border-gray-700">
+          <div className="flex rounded-lg overflow-hidden border border-gray-600">
             <button
               onClick={() => setView("grid")}
               className={`p-2 transition-colors ${
                 view === "grid"
-                  ? "bg-blue-500/20 text-blue-400"
-                  : "bg-transparent text-gray-400 hover:text-white"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-700 text-gray-400 hover:text-white"
               }`}
             >
               <Grid className="h-4 w-4" />
@@ -277,8 +312,8 @@ export default function SkillsPage() {
               onClick={() => setView("list")}
               className={`p-2 transition-colors ${
                 view === "list"
-                  ? "bg-blue-500/20 text-blue-400"
-                  : "bg-transparent text-gray-400 hover:text-white"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-700 text-gray-400 hover:text-white"
               }`}
             >
               <List className="h-4 w-4" />
@@ -293,13 +328,25 @@ export default function SkillsPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-12"
+            className="text-center py-12 bg-gray-800 border border-gray-700 rounded-2xl"
           >
-            <Code2 className="h-12 w-12 text-gray-600 mx-auto mb-3" />
-            <div className="text-gray-400">
-              {searchTerm || selectedCategory !== "all"
-                ? "No skills match your filters"
-                : "No skills added yet. Add your first skill!"}
+            <div className="flex flex-col items-center">
+              <div className="p-4 bg-gray-700 rounded-full mb-4">
+                <Code2 className="h-12 w-12 text-gray-400" />
+              </div>
+              <div className="text-gray-400">
+                {searchTerm || selectedCategory !== "all"
+                  ? "No skills match your filters"
+                  : "No skills added yet. Add your first skill!"}
+              </div>
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="mt-3 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                >
+                  Clear search
+                </button>
+              )}
             </div>
           </motion.div>
         ) : view === "grid" ? (
@@ -336,8 +383,19 @@ export default function SkillsPage() {
       </AnimatePresence>
 
       {/* Skill count */}
-      <div className="text-sm text-gray-500">
-        Showing {filteredSkills.length} of {skills.length} skills
+      <div className="flex items-center justify-between text-sm text-gray-500">
+        <span>Showing {filteredSkills.length} of {skills.length} skills</span>
+        <div className="flex items-center gap-2">
+          <span className="flex items-center gap-1">
+            <Star className="h-3 w-3 text-yellow-400" />
+            Top skill: {topSkill?.name || "N/A"} ({topSkill?.level || 0}%)
+          </span>
+          <span>•</span>
+          <span className="flex items-center gap-1">
+            <Layers className="h-3 w-3 text-purple-400" />
+            {categoryCount} categories
+          </span>
+        </div>
       </div>
 
       {/* Add/Edit Skill Modal */}

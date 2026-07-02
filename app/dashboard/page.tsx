@@ -23,9 +23,7 @@ import StatsCard from "@/components/common/StatsCard";
 import ActivityChart from "@/components/dashboard/ActivityChart";
 import RecentProjects from "@/components/dashboard/RecentProjects";
 import RecentMessages from "@/components/dashboard/RecentMessages";
-import { formatDate } from "@/lib/utils";
 
-// Mock data with more details
 const mockStats = {
   totalProjects: 24,
   totalBlogs: 18,
@@ -45,7 +43,6 @@ const mockActivityData = [
   { name: "Sun", views: 3490, visitors: 4300 },
 ];
 
-// Recent activities
 const recentActivities = [
   {
     id: 1,
@@ -102,7 +99,6 @@ export default function Dashboard() {
   const [greeting, setGreeting] = useState("");
   const [currentTime, setCurrentTime] = useState("");
 
-  // Update greeting and time
   useEffect(() => {
     const hour = new Date().getHours();
     if (hour < 12) setGreeting("Good morning");
@@ -121,10 +117,8 @@ export default function Dashboard() {
     return () => clearInterval(interval);
   }, []);
 
-  // Simulate real-time data updates
   useEffect(() => {
     const interval = setInterval(() => {
-      // Randomly update stats to simulate real-time changes
       const newStats = {
         ...stats,
         totalMessages: stats.totalMessages + Math.floor(Math.random() * 2),
@@ -132,7 +126,7 @@ export default function Dashboard() {
         totalVisitors: stats.totalVisitors + Math.floor(Math.random() * 20),
       };
       setStats(newStats);
-    }, 30000); // Update every 30 seconds
+    }, 30000);
 
     return () => clearInterval(interval);
   }, [stats]);
@@ -141,7 +135,6 @@ export default function Dashboard() {
     setIsRefreshing(true);
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setIsRefreshing(false);
-    // Simulate new data
     setStats({
       ...stats,
       totalMessages: stats.totalMessages + Math.floor(Math.random() * 5),
@@ -167,6 +160,26 @@ export default function Dashboard() {
     window.location.href = href;
   };
 
+  const getIconBgColor = (color: string) => {
+    switch(color) {
+      case 'blue': return 'bg-blue-600 text-white';
+      case 'purple': return 'bg-purple-600 text-white';
+      case 'green': return 'bg-green-600 text-white';
+      case 'orange': return 'bg-orange-600 text-white';
+      default: return 'bg-gray-600 text-white';
+    }
+  };
+
+  const getActivityDotColor = (color: string) => {
+    switch(color) {
+      case 'blue': return 'bg-blue-600';
+      case 'purple': return 'bg-purple-600';
+      case 'green': return 'bg-green-600';
+      case 'orange': return 'bg-orange-600';
+      default: return 'bg-gray-600';
+    }
+  };
+
   return (
     <motion.div
       variants={containerVariants}
@@ -178,10 +191,10 @@ export default function Dashboard() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold text-white">
               Dashboard
             </h1>
-            <span className="px-2 py-1 text-xs bg-blue-500/20 text-blue-400 rounded-full">
+            <span className="px-2 py-1 text-xs bg-blue-600 text-white rounded-full">
               Live
             </span>
           </div>
@@ -200,7 +213,7 @@ export default function Dashboard() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleRefresh}
-            className={`inline-flex items-center gap-2 px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-xl text-white font-medium hover:bg-gray-700/50 transition-all duration-200 ${
+            className={`inline-flex items-center gap-2 px-4 py-2 bg-gray-700 border border-gray-600 rounded-xl text-white font-medium hover:bg-gray-600 transition-all duration-200 ${
               isRefreshing ? "opacity-70" : ""
             }`}
           >
@@ -210,7 +223,7 @@ export default function Dashboard() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl text-white font-medium hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-200"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-xl text-white font-medium hover:bg-blue-700 transition-all duration-200"
           >
             <TrendingUp className="h-4 w-4" />
             View Analytics
@@ -267,7 +280,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <motion.div
           variants={itemVariants}
-          className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4"
+          className="bg-gray-800 border border-gray-700 rounded-xl p-4"
         >
           <div className="flex items-center justify-between">
             <div>
@@ -276,12 +289,14 @@ export default function Dashboard() {
                 {stats.totalViews.toLocaleString()}
               </div>
             </div>
-            <Eye className="h-8 w-8 text-blue-400 opacity-50" />
+            <div className="p-2 bg-blue-600 rounded-lg">
+              <Eye className="h-6 w-6 text-white" />
+            </div>
           </div>
         </motion.div>
         <motion.div
           variants={itemVariants}
-          className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4"
+          className="bg-gray-800 border border-gray-700 rounded-xl p-4"
         >
           <div className="flex items-center justify-between">
             <div>
@@ -290,12 +305,14 @@ export default function Dashboard() {
                 {stats.totalVisitors.toLocaleString()}
               </div>
             </div>
-            <Users className="h-8 w-8 text-purple-400 opacity-50" />
+            <div className="p-2 bg-purple-600 rounded-lg">
+              <Users className="h-6 w-6 text-white" />
+            </div>
           </div>
         </motion.div>
         <motion.div
           variants={itemVariants}
-          className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-xl p-4"
+          className="bg-gray-800 border border-gray-700 rounded-xl p-4"
         >
           <div className="flex items-center justify-between">
             <div>
@@ -304,7 +321,9 @@ export default function Dashboard() {
                 {Math.round(stats.totalViews / 30).toLocaleString()}
               </div>
             </div>
-            <Award className="h-8 w-8 text-green-400 opacity-50" />
+            <div className="p-2 bg-green-600 rounded-lg">
+              <Award className="h-6 w-6 text-white" />
+            </div>
           </div>
         </motion.div>
       </div>
@@ -313,7 +332,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <motion.div
           variants={itemVariants}
-          className="lg:col-span-2 bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6"
+          className="lg:col-span-2 bg-gray-800 border border-gray-700 rounded-2xl p-6"
         >
           <div className="flex items-center justify-between mb-6">
             <div>
@@ -323,7 +342,7 @@ export default function Dashboard() {
             <div className="relative">
               <button
                 onClick={() => setShowPeriodDropdown(!showPeriodDropdown)}
-                className="flex items-center gap-2 px-3 py-1.5 bg-gray-800 border border-gray-700 rounded-lg text-sm text-gray-300 hover:bg-gray-700/50 transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg text-sm text-gray-300 hover:bg-gray-600 transition-colors"
               >
                 {periods.find(p => p.value === selectedPeriod)?.label}
                 <ChevronDown className={`h-4 w-4 transition-transform ${
@@ -345,9 +364,9 @@ export default function Dashboard() {
                           setSelectedPeriod(period.value);
                           setShowPeriodDropdown(false);
                         }}
-                        className={`w-full px-4 py-2 text-sm text-left hover:bg-gray-700/50 transition-colors ${
+                        className={`w-full px-4 py-2 text-sm text-left hover:bg-gray-700 transition-colors ${
                           selectedPeriod === period.value
-                            ? "text-white bg-blue-500/20"
+                            ? "text-white bg-blue-600"
                             : "text-gray-300"
                         }`}
                       >
@@ -364,11 +383,13 @@ export default function Dashboard() {
 
         <motion.div
           variants={itemVariants}
-          className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6"
+          className="bg-gray-800 border border-gray-700 rounded-2xl p-6"
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-white">Quick Actions</h3>
-            <Zap className="h-5 w-5 text-yellow-400" />
+            <div className="p-2 bg-yellow-600 rounded-lg">
+              <Zap className="h-5 w-5 text-white" />
+            </div>
           </div>
           <div className="space-y-3">
             {quickActions.map((action, index) => (
@@ -377,10 +398,10 @@ export default function Dashboard() {
                 whileHover={{ x: 4, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleQuickAction(action.href)}
-                className="w-full flex items-center gap-3 px-4 py-3 bg-gray-700/30 rounded-xl hover:bg-gray-700/50 transition-colors group"
+                className="w-full flex items-center gap-3 px-4 py-3 bg-gray-700 rounded-xl hover:bg-gray-600 transition-colors group"
               >
-                <div className={`p-2 rounded-lg bg-${action.color}-500/20`}>
-                  <action.icon className={`h-4 w-4 text-${action.color}-400`} />
+                <div className={`p-2 rounded-lg ${getIconBgColor(action.color)}`}>
+                  <action.icon className="h-4 w-4" />
                 </div>
                 <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">
                   {action.label}
@@ -391,7 +412,7 @@ export default function Dashboard() {
           </div>
 
           {/* Recent Activity */}
-          <div className="mt-6 pt-6 border-t border-gray-700/50">
+          <div className="mt-6 pt-6 border-t border-gray-700">
             <h4 className="text-sm font-medium text-gray-400 mb-3">Recent Activity</h4>
             <div className="space-y-3">
               {recentActivities.map((activity) => {
@@ -403,14 +424,14 @@ export default function Dashboard() {
                     animate={{ opacity: 1, x: 0 }}
                     className="flex items-start gap-3"
                   >
-                    <div className={`p-1.5 rounded-lg bg-${activity.color}-500/20 text-${activity.color}-400`}>
+                    <div className={`p-1.5 rounded-lg ${getIconBgColor(activity.color)}`}>
                       <Icon className="h-3 w-3" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-gray-300">{activity.title}</p>
                       <p className="text-xs text-gray-500">{activity.time}</p>
                     </div>
-                    <div className={`w-1.5 h-1.5 rounded-full bg-${activity.color}-400 mt-1`} />
+                    <div className={`w-1.5 h-1.5 rounded-full ${getActivityDotColor(activity.color)} mt-1`} />
                   </motion.div>
                 );
               })}
@@ -430,14 +451,18 @@ export default function Dashboard() {
       </div>
 
       {/* Footer Stats */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-gray-800/20 rounded-xl border border-gray-700/30">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-gray-800 rounded-xl border border-gray-700">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 text-sm text-gray-400">
-            <Calendar className="h-4 w-4" />
+            <div className="p-1 bg-blue-600 rounded">
+              <Calendar className="h-4 w-4 text-white" />
+            </div>
             Last updated: {new Date().toLocaleString()}
           </div>
           <div className="flex items-center gap-2 text-sm text-gray-400">
-            <Sparkles className="h-4 w-4 text-yellow-400" />
+            <div className="p-1 bg-yellow-600 rounded">
+              <Sparkles className="h-4 w-4 text-white" />
+            </div>
             All systems operational
           </div>
         </div>

@@ -51,7 +51,7 @@ export default function ProfileSettings({ profile, onUpdate }: ProfileSettingsPr
         {/* Avatar */}
         <div className="flex items-center gap-6">
           <div className="relative group">
-            <div className="w-24 h-24 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center overflow-hidden">
+            <div className="w-24 h-24 rounded-full bg-blue-600 flex items-center justify-center overflow-hidden">
               {avatarPreview ? (
                 <img src={avatarPreview} alt="Profile" className="w-full h-full object-cover" />
               ) : (
@@ -158,7 +158,7 @@ export default function ProfileSettings({ profile, onUpdate }: ProfileSettingsPr
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={isSaving}
-            className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl text-white font-medium hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-xl text-white font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSaving ? (
               <>

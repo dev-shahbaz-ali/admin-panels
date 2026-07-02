@@ -61,7 +61,7 @@ export default function RecentMessages() {
           >
             <div className="flex items-start gap-3">
               <div className="flex-shrink-0">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center">
                   <User className="h-4 w-4 text-white" />
                 </div>
               </div>
