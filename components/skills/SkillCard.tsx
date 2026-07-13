@@ -30,7 +30,7 @@ export default function SkillCard({ skill, onEdit, onDelete }: SkillCardProps) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       whileHover={{ y: -4 }}
-      className="group bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 hover:border-gray-600 transition-all duration-300"
+      className="group bg-black/30 backdrop-blur-sm border border-gray-800/50 rounded-2xl p-6 hover:border-gray-700 transition-all duration-300"
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
@@ -43,7 +43,7 @@ export default function SkillCard({ skill, onEdit, onDelete }: SkillCardProps) {
             </h3>
           </div>
           <div className="mt-2 flex items-center gap-2">
-            <span className="px-2 py-0.5 text-xs rounded-full bg-gray-700/50 text-gray-300">
+            <span className="px-2 py-0.5 text-xs rounded-full bg-gray-800/50 text-gray-300">
               {skill.category}
             </span>
             <span className={`text-xs font-medium ${getLevelColor(skill.level)}`}>
@@ -59,7 +59,7 @@ export default function SkillCard({ skill, onEdit, onDelete }: SkillCardProps) {
         <div className="flex gap-1 ml-4">
           <button
             onClick={() => onEdit(skill)}
-            className="p-1.5 rounded-lg hover:bg-gray-600/50 transition-colors text-gray-400 hover:text-white"
+            className="p-1.5 rounded-lg hover:bg-gray-700/50 transition-colors text-gray-400 hover:text-white"
           >
             <Edit className="h-4 w-4" />
           </button>
@@ -78,7 +78,7 @@ export default function SkillCard({ skill, onEdit, onDelete }: SkillCardProps) {
           <span className="text-gray-400">Proficiency</span>
           <span className="text-white font-medium">{skill.level}%</span>
         </div>
-        <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+        <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${skill.level}%` }}

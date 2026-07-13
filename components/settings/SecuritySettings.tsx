@@ -73,23 +73,23 @@ export default function SecuritySettings({ security, onUpdate }: SecuritySetting
   };
 
   const getStrengthColor = () => {
-    const colors = ["bg-red-500", "bg-yellow-500", "bg-blue-500", "bg-green-500"];
-    return colors[passwordStrength - 1] || "bg-red-500";
+    const colors = ["bg-red-600", "bg-yellow-600", "bg-blue-600", "bg-green-600"];
+    return colors[passwordStrength - 1] || "bg-red-600";
   };
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6"
+      className="bg-gray-800 border border-gray-700 rounded-2xl p-6"
     >
       <h2 className="text-xl font-semibold text-white mb-6">Security Settings</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Current Password */}
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            <Lock className="inline-block h-4 w-4 mr-1" />
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+            <Lock className="h-4 w-4" />
             Current Password
           </label>
           <div className="relative">
@@ -99,7 +99,7 @@ export default function SecuritySettings({ security, onUpdate }: SecuritySetting
               value={formData.currentPassword}
               onChange={handleInputChange}
               placeholder="Enter current password"
-              className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all pr-10"
+              className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all pr-10"
             />
             <button
               type="button"
@@ -113,8 +113,8 @@ export default function SecuritySettings({ security, onUpdate }: SecuritySetting
 
         {/* New Password */}
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            <Key className="inline-block h-4 w-4 mr-1" />
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+            <Key className="h-4 w-4" />
             New Password
           </label>
           <input
@@ -123,7 +123,7 @@ export default function SecuritySettings({ security, onUpdate }: SecuritySetting
             value={formData.newPassword}
             onChange={handleInputChange}
             placeholder="Enter new password"
-            className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all"
+            className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
           />
           {formData.newPassword && (
             <div className="mt-2">
@@ -147,8 +147,8 @@ export default function SecuritySettings({ security, onUpdate }: SecuritySetting
 
         {/* Confirm Password */}
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            <Shield className="inline-block h-4 w-4 mr-1" />
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+            <Shield className="h-4 w-4" />
             Confirm Password
           </label>
           <input
@@ -157,7 +157,7 @@ export default function SecuritySettings({ security, onUpdate }: SecuritySetting
             value={formData.confirmPassword}
             onChange={handleInputChange}
             placeholder="Confirm new password"
-            className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all"
+            className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
           />
           {formData.confirmPassword && formData.newPassword !== formData.confirmPassword && (
             <p className="text-xs text-red-400 mt-1">Passwords do not match</p>
@@ -165,10 +165,10 @@ export default function SecuritySettings({ security, onUpdate }: SecuritySetting
         </div>
 
         {/* Two-Factor Authentication */}
-        <div className="flex items-center justify-between p-4 bg-gray-700/20 rounded-xl">
+        <div className="flex items-center justify-between p-4 bg-gray-700 rounded-xl">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-blue-500/20 text-blue-400">
-              <Smartphone className="h-5 w-5" />
+            <div className="p-2 rounded-lg bg-blue-600">
+              <Smartphone className="h-5 w-5 text-white" />
             </div>
             <div>
               <p className="text-sm font-medium text-white">Two-Factor Authentication</p>
@@ -183,7 +183,7 @@ export default function SecuritySettings({ security, onUpdate }: SecuritySetting
               onChange={handleInputChange}
               className="sr-only peer"
             />
-            <div className="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:bg-blue-500 transition-colors">
+            <div className="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:bg-blue-600 transition-colors">
               <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
                 formData.twoFactorAuth ? "translate-x-5" : ""
               }`} />
@@ -192,13 +192,13 @@ export default function SecuritySettings({ security, onUpdate }: SecuritySetting
         </div>
 
         {/* Save Button */}
-        <div className="pt-4 border-t border-gray-700/50 flex justify-end">
+        <div className="pt-4 border-t border-gray-700 flex justify-end">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={isSaving}
-            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-xl text-white font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 rounded-xl text-white font-medium hover:bg-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSaving ? (
               <>

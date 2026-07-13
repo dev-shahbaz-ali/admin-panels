@@ -25,10 +25,10 @@ export default function SkillListView({ skills, onEdit, onDelete }: SkillListVie
   };
 
   return (
-    <div className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden">
+    <div className="bg-black/30 backdrop-blur-sm border border-gray-800/50 rounded-2xl overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-800/50">
+          <thead className="bg-black/50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Skill
@@ -47,14 +47,14 @@ export default function SkillListView({ skills, onEdit, onDelete }: SkillListVie
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-700/50">
+          <tbody className="divide-y divide-gray-800/50">
             {skills.map((skill) => (
               <motion.tr
                 key={skill.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="hover:bg-gray-700/20 transition-colors"
+                className="hover:bg-gray-900/40 transition-colors"
               >
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
@@ -74,14 +74,14 @@ export default function SkillListView({ skills, onEdit, onDelete }: SkillListVie
                   </div>
                 </td>
                 <td className="px-6 py-4">
-                  <span className="px-2 py-0.5 text-xs rounded-full bg-gray-700/50 text-gray-300">
+                  <span className="px-2 py-0.5 text-xs rounded-full bg-gray-800/50 text-gray-300">
                     {skill.category}
                   </span>
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <div className="flex-1 min-w-[100px]">
-                      <div className="h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                      <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
                         <div
                           className={`h-full rounded-full ${
                             skill.level >= 80
@@ -107,7 +107,7 @@ export default function SkillListView({ skills, onEdit, onDelete }: SkillListVie
                   <div className="flex items-center justify-end gap-2">
                     <button
                       onClick={() => onEdit(skill)}
-                      className="p-1 rounded hover:bg-gray-600/50 text-gray-400 hover:text-white transition-colors"
+                      className="p-1 rounded hover:bg-gray-700/50 text-gray-400 hover:text-white transition-colors"
                     >
                       <Edit className="h-4 w-4" />
                     </button>

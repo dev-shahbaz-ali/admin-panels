@@ -37,7 +37,7 @@ export default function NotificationSettings({ notifications, onUpdate }: Notifi
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6"
+      className="bg-gray-800 border border-gray-700 rounded-2xl p-6"
     >
       <h2 className="text-xl font-semibold text-white mb-6">Notification Settings</h2>
       
@@ -49,11 +49,11 @@ export default function NotificationSettings({ notifications, onUpdate }: Notifi
           return (
             <div
               key={option.key}
-              className="flex items-center justify-between p-4 bg-gray-700/20 rounded-xl hover:bg-gray-700/30 transition-colors"
+              className="flex items-center justify-between p-4 bg-gray-700 rounded-xl hover:bg-gray-600 transition-colors"
             >
               <div className="flex items-center gap-3">
                 <div className={`p-2 rounded-lg ${
-                  isEnabled ? "bg-blue-500/20 text-blue-400" : "bg-gray-600/20 text-gray-500"
+                  isEnabled ? "bg-blue-600 text-white" : "bg-gray-600 text-gray-400"
                 }`}>
                   <Icon className="h-5 w-5" />
                 </div>
@@ -69,7 +69,7 @@ export default function NotificationSettings({ notifications, onUpdate }: Notifi
                   onChange={() => handleToggle(option.key)}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:bg-blue-500 transition-colors">
+                <div className="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:bg-blue-600 transition-colors">
                   <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
                     isEnabled ? "translate-x-5" : ""
                   }`} />
@@ -80,13 +80,13 @@ export default function NotificationSettings({ notifications, onUpdate }: Notifi
         })}
 
         {/* Save Button */}
-        <div className="pt-4 border-t border-gray-700/50 flex justify-end">
+        <div className="pt-4 border-t border-gray-700 flex justify-end">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={isSaving}
-            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-xl text-white font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 rounded-xl text-white font-medium hover:bg-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSaving ? (
               <>

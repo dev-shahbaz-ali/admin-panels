@@ -106,10 +106,10 @@ export default function AddSkillModal({
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-gray-800 rounded-2xl border border-gray-700 shadow-2xl"
+            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-black/80 backdrop-blur-sm rounded-2xl border border-gray-800 shadow-2xl"
           >
             {/* Header */}
-            <div className="sticky top-0 z-10 flex items-center justify-between p-6 bg-gray-800 border-b border-gray-700">
+            <div className="sticky top-0 z-10 flex items-center justify-between p-6 bg-black/50 backdrop-blur-sm border-b border-gray-800">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-blue-600 rounded-lg">
                   {isEditing ? (
@@ -150,7 +150,7 @@ export default function AddSkillModal({
                   onChange={handleInputChange}
                   placeholder="e.g., React, TypeScript, Node.js"
                   required
-                  className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-all"
+                  className="w-full px-4 py-2.5 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-all"
                 />
               </div>
 
@@ -164,7 +164,7 @@ export default function AddSkillModal({
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white focus:outline-none focus:border-blue-500 transition-all"
+                  className="w-full px-4 py-2.5 bg-gray-900 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-blue-500 transition-all"
                 >
                   {categories.map((cat) => (
                     <option key={cat} value={cat}>
@@ -188,9 +188,9 @@ export default function AddSkillModal({
                     onChange={handleLevelChange}
                     min="0"
                     max="100"
-                    className="flex-1 h-2 bg-gray-600 rounded-full appearance-none cursor-pointer accent-blue-600"
+                    className="flex-1 h-2 bg-gray-700 rounded-full appearance-none cursor-pointer accent-blue-600"
                     style={{
-                      background: `linear-gradient(to right, #2563EB 0%, #2563EB ${formData.level}%, #4B5563 ${formData.level}%, #4B5563 100%)`,
+                      background: `linear-gradient(to right, #2563EB 0%, #2563EB ${formData.level}%, #374151 ${formData.level}%, #374151 100%)`,
                     }}
                   />
                   <span className="text-sm font-medium text-white min-w-[40px] text-center">
@@ -216,7 +216,7 @@ export default function AddSkillModal({
                   value={formData.icon}
                   onChange={handleInputChange}
                   placeholder="e.g., ⚛️, 📱, 🎨"
-                  className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-all"
+                  className="w-full px-4 py-2.5 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-all"
                 />
                 <p className="text-xs text-gray-500 mt-1">Add an emoji or icon to represent your skill</p>
               </div>
@@ -233,16 +233,16 @@ export default function AddSkillModal({
                   onChange={handleInputChange}
                   rows={3}
                   placeholder="Brief description of your experience with this skill..."
-                  className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-all resize-none"
+                  className="w-full px-4 py-2.5 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-all resize-none"
                 />
               </div>
 
               {/* Form Actions */}
-              <div className="flex items-center gap-3 pt-4 border-t border-gray-700">
+              <div className="flex items-center gap-3 pt-4 border-t border-gray-800">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 px-4 py-2.5 bg-gray-700 hover:bg-gray-600 rounded-xl text-white font-medium transition-colors"
+                  className="flex-1 px-4 py-2.5 bg-gray-900 hover:bg-gray-800 rounded-xl text-white font-medium transition-colors"
                 >
                   Cancel
                 </button>

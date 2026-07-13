@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Plus,
   Search,
-  Filter,
   Grid,
   List,
   Calendar,
@@ -16,17 +15,8 @@ import {
   Tag,
   FileText,
   BookOpen,
-  Clock,
   CheckCircle,
-  XCircle,
   AlertCircle,
-  TrendingUp,
-  Users,
-  Share2,
-  Heart,
-  MessageCircle,
-  Sparkles,
-  Layers,
   PenTool,
   Hash,
   Image,
@@ -44,9 +34,6 @@ const initialBlogs = [
     image: "/placeholder-blog.jpg",
     published: true,
     createdAt: "2024-01-20T10:00:00",
-    views: 1234,
-    likes: 89,
-    comments: 23,
   },
   {
     id: "2",
@@ -57,9 +44,6 @@ const initialBlogs = [
     image: "/placeholder-blog.jpg",
     published: true,
     createdAt: "2024-01-15T14:30:00",
-    views: 987,
-    likes: 67,
-    comments: 15,
   },
   {
     id: "3",
@@ -70,9 +54,6 @@ const initialBlogs = [
     image: "/placeholder-blog.jpg",
     published: false,
     createdAt: "2024-01-10T09:15:00",
-    views: 0,
-    likes: 0,
-    comments: 0,
   },
   {
     id: "4",
@@ -83,9 +64,6 @@ const initialBlogs = [
     image: "/placeholder-blog.jpg",
     published: true,
     createdAt: "2024-01-05T16:45:00",
-    views: 756,
-    likes: 45,
-    comments: 12,
   },
   {
     id: "5",
@@ -96,9 +74,6 @@ const initialBlogs = [
     image: "/placeholder-blog.jpg",
     published: false,
     createdAt: "2024-01-01T11:20:00",
-    views: 0,
-    likes: 0,
-    comments: 0,
   },
 ];
 
@@ -137,12 +112,7 @@ export default function BlogPage() {
   }, [blogs, searchTerm, statusFilter]);
 
   const handleAddBlog = (newBlog: any) => {
-    setBlogs((prev) => [{
-      ...newBlog,
-      views: 0,
-      likes: 0,
-      comments: 0,
-    }, ...prev]);
+    setBlogs((prev) => [newBlog, ...prev]);
     setShowAddModal(false);
   };
 
@@ -154,7 +124,7 @@ export default function BlogPage() {
   const handleUpdateBlog = (updatedBlog: any) => {
     setBlogs((prev) =>
       prev.map((blog) =>
-        blog.id === updatedBlog.id ? { ...updatedBlog, views: blog.views, likes: blog.likes, comments: blog.comments } : blog
+        blog.id === updatedBlog.id ? updatedBlog : blog
       )
     );
     setEditingBlog(null);
@@ -179,8 +149,6 @@ export default function BlogPage() {
 
   const publishedCount = blogs.filter((b) => b.published).length;
   const draftCount = blogs.filter((b) => !b.published).length;
-  const totalViews = blogs.reduce((acc, blog) => acc + (blog.views || 0), 0);
-  const totalLikes = blogs.reduce((acc, blog) => acc + (blog.likes || 0), 0);
 
   // Helper function for status colors
   const getStatusColor = (published: boolean) => {
@@ -211,15 +179,15 @@ export default function BlogPage() {
             setEditingBlog(null);
             setShowAddModal(true);
           }}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-xl text-white font-medium hover:bg-blue-700 transition-all duration-200"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-xl text-white font-medium hover:bg-blue-700 transition-all duration-200 cursor-pointer"
         >
           <Plus className="h-4 w-4" />
           New Post
         </motion.button>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      {/* Simple Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
           <div className="flex items-center justify-between">
             <div>
@@ -250,28 +218,6 @@ export default function BlogPage() {
             </div>
             <div className="p-2 bg-yellow-600 rounded-lg">
               <PenTool className="h-5 w-5 text-white" />
-            </div>
-          </div>
-        </div>
-        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="text-sm text-gray-400">Total Views</span>
-              <div className="text-2xl font-bold text-white mt-1">{totalViews.toLocaleString()}</div>
-            </div>
-            <div className="p-2 bg-purple-600 rounded-lg">
-              <Eye className="h-5 w-5 text-white" />
-            </div>
-          </div>
-        </div>
-        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="text-sm text-gray-400">Total Likes</span>
-              <div className="text-2xl font-bold text-white mt-1">{totalLikes.toLocaleString()}</div>
-            </div>
-            <div className="p-2 bg-red-600 rounded-lg">
-              <Heart className="h-5 w-5 text-white" />
             </div>
           </div>
         </div>
@@ -382,24 +328,6 @@ export default function BlogPage() {
                     </span>
                   </div>
 
-                  {/* Stats Overlay */}
-                  {blog.published && (
-                    <div className="absolute bottom-3 left-3 flex items-center gap-3 bg-black/60 rounded-lg px-2 py-1">
-                      <span className="flex items-center gap-1 text-xs text-white">
-                        <Eye className="h-3 w-3" />
-                        {blog.views || 0}
-                      </span>
-                      <span className="flex items-center gap-1 text-xs text-white">
-                        <Heart className="h-3 w-3" />
-                        {blog.likes || 0}
-                      </span>
-                      <span className="flex items-center gap-1 text-xs text-white">
-                        <MessageCircle className="h-3 w-3" />
-                        {blog.comments || 0}
-                      </span>
-                    </div>
-                  )}
-
                   {/* Action Buttons */}
                   <div className="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
@@ -463,15 +391,6 @@ export default function BlogPage() {
                       <Calendar className="h-3 w-3" />
                       {new Date(blog.createdAt).toLocaleDateString()}
                     </span>
-                    {blog.published && (
-                      <>
-                        <span>•</span>
-                        <span className="flex items-center gap-1">
-                          <TrendingUp className="h-3 w-3" />
-                          {blog.views || 0} views
-                        </span>
-                      </>
-                    )}
                   </div>
                 </div>
               </motion.div>
@@ -505,12 +424,6 @@ export default function BlogPage() {
                       <div className="flex items-center gap-2">
                         <CheckCircle className="h-4 w-4" />
                         Status
-                      </div>
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                      <div className="flex items-center gap-2">
-                        <Eye className="h-4 w-4" />
-                        Views
                       </div>
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
@@ -568,12 +481,6 @@ export default function BlogPage() {
                         <span className={`flex items-center gap-1 px-2 py-1 text-xs rounded-full text-white ${getStatusColor(blog.published)}`}>
                           {getStatusIcon(blog.published)}
                           {blog.published ? "Published" : "Draft"}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="flex items-center gap-1 text-sm text-gray-300">
-                          <Eye className="h-3 w-3" />
-                          {blog.views || 0}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-400">

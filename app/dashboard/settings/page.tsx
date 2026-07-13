@@ -9,7 +9,6 @@ import {
   Lock,
   Globe,
   Check,
-  AlertCircle,
   Shield,
 } from "lucide-react";
 import ProfileSettings from "@/components/settings/ProfileSettings";
@@ -99,9 +98,14 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-white">Settings</h1>
-        <p className="text-gray-400 mt-1">Manage your account and preferences</p>
+      <div className="flex items-center gap-3">
+        <div className="p-2.5 bg-blue-600 rounded-xl">
+          <Shield className="h-6 w-6 text-white" />
+        </div>
+        <div>
+          <h1 className="text-3xl font-bold text-white">Settings</h1>
+          <p className="text-gray-400 mt-1">Manage your account and preferences</p>
+        </div>
       </div>
 
       {/* Success Message */}
@@ -111,7 +115,7 @@ export default function SettingsPage() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="flex items-center gap-3 p-4 bg-green-500/10 border border-green-500/20 rounded-xl"
+            className="flex items-center gap-3 p-4 bg-green-600/10 border border-green-600/20 rounded-xl"
           >
             <Check className="h-5 w-5 text-green-400" />
             <span className="text-green-400">{saveMessage}</span>
@@ -123,7 +127,7 @@ export default function SettingsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Sidebar */}
         <div className="lg:col-span-1">
-          <div className="sticky top-20 bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-4">
+          <div className="sticky top-20 bg-gray-800 border border-gray-700 rounded-2xl p-4">
             <nav className="space-y-1">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
@@ -133,16 +137,16 @@ export default function SettingsPage() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
                       isActive
-                        ? "bg-blue-500/20 text-blue-400 border border-blue-500/20"
-                        : "text-gray-400 hover:text-white hover:bg-gray-700/30"
+                        ? "bg-blue-600 text-white"
+                        : "text-gray-400 hover:text-white hover:bg-gray-700"
                     }`}
                   >
                     <Icon className="h-5 w-5" />
                     <span className="text-sm font-medium">{tab.label}</span>
                     {isActive && (
-                      <div className="ml-auto h-1.5 w-1.5 rounded-full bg-blue-400" />
+                      <div className="ml-auto h-1.5 w-1.5 rounded-full bg-white" />
                     )}
                   </button>
                 );
@@ -150,7 +154,7 @@ export default function SettingsPage() {
             </nav>
 
             {/* Account Info */}
-            <div className="mt-6 pt-6 border-t border-gray-700/50">
+            <div className="mt-6 pt-6 border-t border-gray-700">
               <div className="flex items-center gap-3 px-3">
                 <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
                   <span className="text-sm font-bold text-white">
@@ -202,17 +206,6 @@ export default function SettingsPage() {
               />
             )}
           </AnimatePresence>
-
-          {/* Session Info */}
-          <div className="mt-6 p-4 bg-gray-800/20 backdrop-blur-sm border border-gray-700/30 rounded-xl">
-            <div className="flex items-center gap-3">
-              <Shield className="h-5 w-5 text-gray-400" />
-              <div>
-                <p className="text-sm text-gray-300">Last password change: {security.lastPasswordChange}</p>
-                <p className="text-xs text-gray-500 mt-1">For security, we recommend changing your password regularly</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

@@ -13,27 +13,42 @@ import {
   BarChart3,
   Layers,
   Award,
-  Sparkles,
   ChevronDown,
   SortAsc,
-  SortDesc,
   Hash,
-  Tag,
   Star,
   Zap,
+  Globe,
+  Database,
+  Server,
+  Palette,
+  Terminal,
+  Cloud,
+  Shield,
+  Cpu,
+  Smartphone,
+  Layout,
+  GitBranch,
+  Feather,
+  Box,
+  Codelab,
+  Braces,
+  Rocket,
+  Book,
+  Sparkles,
 } from "lucide-react";
 import AddSkillModal from "@/components/skills/AddSkillModal";
 import SkillCard from "@/components/skills/SkillCard";
 import SkillListView from "@/components/skills/SkillListView";
 
-// Mock initial skills
+// Mock initial skills with React icons
 const initialSkills = [
   {
     id: "1",
     name: "React",
     category: "Frontend",
     level: 90,
-    icon: "⚛️",
+    icon: "React",
     description: "Building modern web applications with React and hooks",
   },
   {
@@ -41,7 +56,7 @@ const initialSkills = [
     name: "Next.js",
     category: "Frontend",
     level: 85,
-    icon: "▲",
+    icon: "Next.js",
     description: "Server-side rendering and static site generation",
   },
   {
@@ -49,7 +64,7 @@ const initialSkills = [
     name: "TypeScript",
     category: "Language",
     level: 80,
-    icon: "📘",
+    icon: "TypeScript",
     description: "Type-safe JavaScript for large-scale applications",
   },
   {
@@ -57,7 +72,7 @@ const initialSkills = [
     name: "Node.js",
     category: "Backend",
     level: 75,
-    icon: "🟢",
+    icon: "Node.js",
     description: "Building scalable server-side applications",
   },
   {
@@ -65,7 +80,7 @@ const initialSkills = [
     name: "TailwindCSS",
     category: "Frontend",
     level: 88,
-    icon: "🎨",
+    icon: "TailwindCSS",
     description: "Utility-first CSS framework for rapid UI development",
   },
   {
@@ -73,7 +88,7 @@ const initialSkills = [
     name: "Python",
     category: "Language",
     level: 70,
-    icon: "🐍",
+    icon: "Python",
     description: "Data processing and backend development",
   },
   {
@@ -81,7 +96,7 @@ const initialSkills = [
     name: "PostgreSQL",
     category: "Database",
     level: 65,
-    icon: "🐘",
+    icon: "PostgreSQL",
     description: "Relational database management and optimization",
   },
   {
@@ -89,10 +104,34 @@ const initialSkills = [
     name: "Docker",
     category: "DevOps",
     level: 60,
-    icon: "🐳",
+    icon: "Docker",
     description: "Containerization and deployment automation",
   },
 ];
+
+// Category icon mapping
+const categoryIcons: Record<string, any> = {
+  Frontend: Layout,
+  Backend: Server,
+  Language: Braces,
+  Database: Database,
+  DevOps: Cloud,
+  Design: Palette,
+  Testing: Shield,
+  Other: Box,
+};
+
+// Skill icon mapping (for display purposes)
+const skillIcons: Record<string, any> = {
+  React: Code2,
+  "Next.js": Rocket,
+  TypeScript: Book,
+  "Node.js": Server,
+  TailwindCSS: Palette,
+  Python: Terminal,
+  PostgreSQL: Database,
+  Docker: Box,
+};
 
 export default function SkillsPage() {
   const [view, setView] = useState<"grid" | "list">("grid");
@@ -111,7 +150,6 @@ export default function SkillsPage() {
   useEffect(() => {
     let filtered = skills;
 
-    // Apply search filter
     if (searchTerm) {
       filtered = filtered.filter(
         (skill) =>
@@ -121,12 +159,10 @@ export default function SkillsPage() {
       );
     }
 
-    // Apply category filter
     if (selectedCategory !== "all") {
       filtered = filtered.filter((skill) => skill.category === selectedCategory);
     }
 
-    // Apply sorting
     filtered = [...filtered].sort((a, b) => {
       if (sortBy === "name") {
         return a.name.localeCompare(b.name);
@@ -171,12 +207,24 @@ export default function SkillsPage() {
   const topSkill = skills.reduce((a, b) => (a.level > b.level ? a : b));
   const categoryCount = new Set(skills.map((s) => s.category)).size;
 
+  // Get icon for skill
+  const getSkillIcon = (skillName: string) => {
+    const Icon = skillIcons[skillName];
+    return Icon || Code2;
+  };
+
+  // Get icon for category
+  const getCategoryIcon = (category: string) => {
+    const Icon = categoryIcons[category];
+    return Icon || Box;
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-blue-600 rounded-lg">
+          <div className="p-2.5 bg-blue-600 rounded-xl">
             <Code2 className="h-6 w-6 text-white" />
           </div>
           <div>
@@ -191,7 +239,7 @@ export default function SkillsPage() {
             setEditingSkill(null);
             setShowAddModal(true);
           }}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-xl text-white font-medium hover:bg-blue-700 transition-all duration-200"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 rounded-xl text-white font-medium hover:bg-blue-700 transition-all duration-200 shadow-lg shadow-blue-600/20"
         >
           <Plus className="h-4 w-4" />
           Add Skill
@@ -200,52 +248,73 @@ export default function SkillsPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="bg-gray-800 border border-gray-700 rounded-xl p-4 hover:border-blue-600 transition-colors"
+        >
           <div className="flex items-center justify-between">
             <div>
               <span className="text-sm text-gray-400">Total Skills</span>
               <div className="text-2xl font-bold text-white mt-1">{totalSkills}</div>
             </div>
-            <div className="p-2 bg-blue-600 rounded-lg">
+            <div className="p-2.5 bg-blue-600 rounded-xl">
               <Code2 className="h-5 w-5 text-white" />
             </div>
           </div>
-        </div>
-        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
+        </motion.div>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-gray-800 border border-gray-700 rounded-xl p-4 hover:border-purple-600 transition-colors"
+        >
           <div className="flex items-center justify-between">
             <div>
               <span className="text-sm text-gray-400">Avg Proficiency</span>
               <div className="text-2xl font-bold text-blue-400 mt-1">{averageLevel}%</div>
             </div>
-            <div className="p-2 bg-purple-600 rounded-lg">
+            <div className="p-2.5 bg-purple-600 rounded-xl">
               <BarChart3 className="h-5 w-5 text-white" />
             </div>
           </div>
-        </div>
-        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
+        </motion.div>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="bg-gray-800 border border-gray-700 rounded-xl p-4 hover:border-green-600 transition-colors"
+        >
           <div className="flex items-center justify-between">
             <div>
               <span className="text-sm text-gray-400">Categories</span>
               <div className="text-2xl font-bold text-purple-400 mt-1">{categoryCount}</div>
             </div>
-            <div className="p-2 bg-green-600 rounded-lg">
+            <div className="p-2.5 bg-green-600 rounded-xl">
               <Layers className="h-5 w-5 text-white" />
             </div>
           </div>
-        </div>
-        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4">
+        </motion.div>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="bg-gray-800 border border-gray-700 rounded-xl p-4 hover:border-yellow-600 transition-colors"
+        >
           <div className="flex items-center justify-between">
             <div>
               <span className="text-sm text-gray-400">Top Skill</span>
-              <div className="text-sm font-bold text-white mt-1 truncate">
+              <div className="text-sm font-bold text-white mt-1 truncate flex items-center gap-1">
+                <Award className="h-4 w-4 text-yellow-400" />
                 {topSkill?.name || "N/A"}
               </div>
             </div>
-            <div className="p-2 bg-yellow-600 rounded-lg">
-              <Award className="h-5 w-5 text-white" />
+            <div className="p-2.5 bg-yellow-600 rounded-xl">
+              <Star className="h-5 w-5 text-white" />
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Search and Filters */}
@@ -257,7 +326,7 @@ export default function SkillsPage() {
             placeholder="Search skills..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+            className="w-full pl-9 pr-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
           />
         </div>
         <div className="flex items-center gap-2 flex-wrap">
@@ -267,7 +336,7 @@ export default function SkillsPage() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="pl-9 pr-8 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500 transition-colors appearance-none"
+              className="pl-9 pr-8 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all appearance-none min-w-[140px]"
             >
               {categories.map((cat) => (
                 <option key={cat} value={cat}>
@@ -288,7 +357,7 @@ export default function SkillsPage() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as "name" | "level")}
-              className="pl-9 pr-8 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500 transition-colors appearance-none"
+              className="pl-9 pr-8 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all appearance-none min-w-[140px]"
             >
               <option value="level">Sort by Level</option>
               <option value="name">Sort by Name</option>
@@ -297,23 +366,23 @@ export default function SkillsPage() {
           </div>
 
           {/* View Toggle */}
-          <div className="flex rounded-lg overflow-hidden border border-gray-600">
+          <div className="flex rounded-xl overflow-hidden border border-gray-600">
             <button
               onClick={() => setView("grid")}
-              className={`p-2 transition-colors ${
+              className={`p-2.5 transition-all ${
                 view === "grid"
                   ? "bg-blue-600 text-white"
-                  : "bg-gray-700 text-gray-400 hover:text-white"
+                  : "bg-gray-700 text-gray-400 hover:text-white hover:bg-gray-600"
               }`}
             >
               <Grid className="h-4 w-4" />
             </button>
             <button
               onClick={() => setView("list")}
-              className={`p-2 transition-colors ${
+              className={`p-2.5 transition-all ${
                 view === "list"
                   ? "bg-blue-600 text-white"
-                  : "bg-gray-700 text-gray-400 hover:text-white"
+                  : "bg-gray-700 text-gray-400 hover:text-white hover:bg-gray-600"
               }`}
             >
               <List className="h-4 w-4" />
@@ -328,11 +397,11 @@ export default function SkillsPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-12 bg-gray-800 border border-gray-700 rounded-2xl"
+            className="text-center py-16 bg-gray-800 border border-gray-700 rounded-2xl"
           >
             <div className="flex flex-col items-center">
               <div className="p-4 bg-gray-700 rounded-full mb-4">
-                <Code2 className="h-12 w-12 text-gray-400" />
+                <Code2 className="h-12 w-12 text-gray-500" />
               </div>
               <div className="text-gray-400">
                 {searchTerm || selectedCategory !== "all"
@@ -385,15 +454,15 @@ export default function SkillsPage() {
       {/* Skill count */}
       <div className="flex items-center justify-between text-sm text-gray-500">
         <span>Showing {filteredSkills.length} of {skills.length} skills</span>
-        <div className="flex items-center gap-2">
-          <span className="flex items-center gap-1">
-            <Star className="h-3 w-3 text-yellow-400" />
-            Top skill: {topSkill?.name || "N/A"} ({topSkill?.level || 0}%)
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-1.5">
+            <Star className="h-3.5 w-3.5 text-yellow-400" />
+            <span>Top: {topSkill?.name || "N/A"} ({topSkill?.level || 0}%)</span>
           </span>
-          <span>•</span>
-          <span className="flex items-center gap-1">
-            <Layers className="h-3 w-3 text-purple-400" />
-            {categoryCount} categories
+          <span className="text-gray-600">|</span>
+          <span className="flex items-center gap-1.5">
+            <Layers className="h-3.5 w-3.5 text-purple-400" />
+            <span>{categoryCount} categories</span>
           </span>
         </div>
       </div>

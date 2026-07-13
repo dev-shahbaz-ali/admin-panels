@@ -213,7 +213,7 @@ export default function Dashboard() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleRefresh}
-            className={`inline-flex items-center gap-2 px-4 py-2 bg-gray-700 border border-gray-600 rounded-xl text-white font-medium hover:bg-gray-600 transition-all duration-200 ${
+            className={`inline-flex items-center gap-2 px-4 py-2 bg-gray-700 border border-gray-600 rounded-xl text-white font-medium hover:bg-gray-600 transition-all duration-200 cursor-pointer ${
               isRefreshing ? "opacity-70" : ""
             }`}
           >
@@ -223,7 +223,7 @@ export default function Dashboard() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-xl text-white font-medium hover:bg-blue-700 transition-all duration-200"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-xl text-white font-medium hover:bg-blue-700 transition-all duration-200 cursor-pointer"
           >
             <TrendingUp className="h-4 w-4" />
             View Analytics
@@ -398,7 +398,7 @@ export default function Dashboard() {
                 whileHover={{ x: 4, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleQuickAction(action.href)}
-                className="w-full flex items-center gap-3 px-4 py-3 bg-gray-700 rounded-xl hover:bg-gray-600 transition-colors group"
+                className="w-full flex items-center gap-3 px-4 py-3 bg-gray-700 rounded-xl hover:bg-gray-600 transition-colors group cursor-pointer"
               >
                 <div className={`p-2 rounded-lg ${getIconBgColor(action.color)}`}>
                   <action.icon className="h-4 w-4" />

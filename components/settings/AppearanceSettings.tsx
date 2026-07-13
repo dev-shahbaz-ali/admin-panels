@@ -2,135 +2,164 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Palette, Monitor, Moon, Sun, Save, Check } from "lucide-react";
+import { Save, Camera, User, Mail, Globe, Briefcase } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-interface AppearanceSettingsProps {
-  appearance: any;
+interface ProfileSettingsProps {
+  profile: any;
   onUpdate: (data: any) => void;
 }
 
-export default function AppearanceSettings({ appearance, onUpdate }: AppearanceSettingsProps) {
-  const [settings, setSettings] = useState(appearance);
+export default function ProfileSettings({ profile, onUpdate }: ProfileSettingsProps) {
+  const [formData, setFormData] = useState(profile);
   const [isSaving, setIsSaving] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState(profile.avatar);
 
-  const handleThemeChange = (theme: string) => {
-    setSettings((prev: any) => ({ ...prev, theme }));
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev: any) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatarPreview(reader.result as string);
+        setFormData((prev: any) => ({ ...prev, avatar: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    onUpdate(settings);
+    onUpdate(formData);
     setIsSaving(false);
   };
-
-  const themes = [
-    { id: "dark", icon: Moon, label: "Dark" },
-    { id: "light", icon: Sun, label: "Light" },
-    { id: "system", icon: Monitor, label: "System" },
-  ];
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-gray-800/30 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6"
+      className="bg-gray-800 border border-gray-700 rounded-2xl p-6"
     >
-      <h2 className="text-xl font-semibold text-white mb-6">Appearance Settings</h2>
+      <h2 className="text-xl font-semibold text-white mb-6">Profile Settings</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Theme Selection */}
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-3">Theme</label>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {themes.map((theme) => {
-              const Icon = theme.icon;
-              const isActive = settings.theme === theme.id;
-              
-              return (
-                <button
-                  key={theme.id}
-                  type="button"
-                  onClick={() => handleThemeChange(theme.id)}
-                  className={`relative p-4 rounded-xl border-2 transition-all ${
-                    isActive
-                      ? "border-blue-500 bg-blue-500/10"
-                      : "border-gray-700 hover:border-gray-500"
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-lg ${
-                      isActive ? "bg-blue-500/20 text-blue-400" : "bg-gray-700/30 text-gray-400"
-                    }`}>
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <span className={`text-sm font-medium ${
-                      isActive ? "text-white" : "text-gray-400"
-                    }`}>
-                      {theme.label}
-                    </span>
-                  </div>
-                  {isActive && (
-                    <div className="absolute top-2 right-2">
-                      <Check className="h-4 w-4 text-blue-400" />
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Accent Color */}
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-3">Accent Color</label>
-          <div className="flex gap-3 flex-wrap">
-            {["blue", "purple", "green", "red", "orange", "pink"].map((color) => (
-              <button
-                key={color}
-                type="button"
-                onClick={() => setSettings((prev: any) => ({ ...prev, accentColor: color }))}
-                className={`w-10 h-10 rounded-full border-2 transition-all ${
-                  settings.accentColor === color
-                    ? "border-white scale-110"
-                    : "border-transparent hover:scale-105"
-                }`}
-                style={{ backgroundColor: `var(--color-${color}-500)` }}
+        {/* Avatar */}
+        <div className="flex items-center gap-6">
+          <div className="relative group">
+            <div className="w-24 h-24 rounded-full bg-blue-600 flex items-center justify-center overflow-hidden">
+              {avatarPreview ? (
+                <img src={avatarPreview} alt="Profile" className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-3xl font-bold text-white">
+                  {formData.name?.charAt(0) || "U"}
+                </span>
+              )}
+            </div>
+            <label className="absolute bottom-0 right-0 p-1.5 bg-blue-600 rounded-full hover:bg-blue-700 transition-colors cursor-pointer">
+              <Camera className="h-4 w-4 text-white" />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleAvatarChange}
+                className="hidden"
               />
-            ))}
+            </label>
+          </div>
+          <div>
+            <p className="text-sm text-gray-300">Profile Photo</p>
+            <p className="text-xs text-gray-500 mt-1">Click the camera icon to upload</p>
           </div>
         </div>
 
-        {/* Font Size */}
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-3">Font Size</label>
-          <div className="flex gap-3">
-            {["small", "medium", "large"].map((size) => (
-              <button
-                key={size}
-                type="button"
-                onClick={() => setSettings((prev: any) => ({ ...prev, fontSize: size }))}
-                className={`px-4 py-2 rounded-xl transition-all ${
-                  settings.fontSize === size
-                    ? "bg-blue-500/20 border border-blue-500/50 text-white"
-                    : "bg-gray-700/30 border border-transparent text-gray-400 hover:text-white"
-                }`}
-              >
-                <span className="capitalize">{size}</span>
-              </button>
-            ))}
+        {/* Form Fields */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+              <User className="h-4 w-4" />
+              Full Name *
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+              className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+            />
           </div>
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+              <Mail className="h-4 w-4" />
+              Email Address *
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              required
+              className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+            />
+          </div>
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+              <Globe className="h-4 w-4" />
+              Username
+            </label>
+            <input
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleInputChange}
+              className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+            />
+          </div>
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+              <Briefcase className="h-4 w-4" />
+              Role
+            </label>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleInputChange}
+              className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+            >
+              <option value="Administrator">Administrator</option>
+              <option value="Editor">Editor</option>
+              <option value="Contributor">Contributor</option>
+              <option value="Viewer">Viewer</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Bio */}
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Bio</label>
+          <textarea
+            name="bio"
+            value={formData.bio}
+            onChange={handleInputChange}
+            rows={3}
+            placeholder="Tell us about yourself..."
+            className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none"
+          />
         </div>
 
         {/* Save Button */}
-        <div className="pt-4 border-t border-gray-700/50 flex justify-end">
+        <div className="pt-4 border-t border-gray-700 flex justify-end">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={isSaving}
-            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-xl text-white font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 rounded-xl text-white font-medium hover:bg-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSaving ? (
               <>
