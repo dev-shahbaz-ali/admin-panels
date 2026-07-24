@@ -190,7 +190,7 @@ export default function AddSkillModal({
                     max="100"
                     className="flex-1 h-2 bg-gray-700 rounded-full appearance-none cursor-pointer accent-blue-600"
                     style={{
-                      background: `linear-gradient(to right, #2563EB 0%, #2563EB ${formData.level}%, #374151 ${formData.level}%, #374151 100%)`,
+                      background: `linear-gradient(to right, #2563EB 0%, #2563EB ${formData.level}%, #e2e8f0 ${formData.level}%, #e2e8f0 100%)`,
                     }}
                   />
                   <span className="text-sm font-medium text-white min-w-[40px] text-center">

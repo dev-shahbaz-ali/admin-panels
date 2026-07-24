@@ -6,8 +6,6 @@ import {
   Search,
   Bell,
   User,
-  Moon,
-  Sun,
   Menu,
   ChevronDown,
   Settings,
@@ -19,7 +17,6 @@ import {
   Calendar,
   Check,
   X,
-  Sparkles,
   Command,
 } from "lucide-react";
 
@@ -73,7 +70,7 @@ const notifications = [
   {
     id: 5,
     type: "project",
-    title: "New project added: AI Chat Application",
+    title: "New project added: Client portal redesign",
     description: "Your new project has been published successfully",
     time: "1 day ago",
     read: true,
@@ -83,7 +80,6 @@ const notifications = [
 ];
 
 export default function Header({ sidebarOpen, setSidebarOpen }: HeaderProps) {
-  const [isDark, setIsDark] = useState(true);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -151,11 +147,6 @@ export default function Header({ sidebarOpen, setSidebarOpen }: HeaderProps) {
     }
   };
 
-  const handleThemeToggle = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle("dark");
-  };
-
   return (
     <header className="sticky top-0 z-40 bg-gray-800 border-b border-gray-700">
       <div className="flex items-center justify-between h-16 px-4 md:px-6">
@@ -193,18 +184,6 @@ export default function Header({ sidebarOpen, setSidebarOpen }: HeaderProps) {
             className="md:hidden p-2 rounded-lg hover:bg-gray-700 transition-colors text-gray-400 hover:text-white"
           >
             <Search className="h-5 w-5" />
-          </button>
-
-          {/* Theme toggle */}
-          <button
-            onClick={handleThemeToggle}
-            className="p-2 rounded-lg hover:bg-gray-700 transition-colors text-gray-400 hover:text-white"
-          >
-            {isDark ? (
-              <Sun className="h-5 w-5" />
-            ) : (
-              <Moon className="h-5 w-5" />
-            )}
           </button>
 
           {/* Notifications */}

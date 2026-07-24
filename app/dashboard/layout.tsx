@@ -12,7 +12,7 @@ export default function DashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-slate-50">
       <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
       <div className={`transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-0'}`}>
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />

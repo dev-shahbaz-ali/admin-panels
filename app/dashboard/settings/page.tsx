@@ -35,7 +35,7 @@ const initialNotifications = {
 };
 
 const initialAppearance = {
-  theme: "dark",
+  theme: "light",
   accentColor: "blue",
   fontSize: "medium",
 };

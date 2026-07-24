@@ -19,9 +19,9 @@ const initialProjects = [
   },
   {
     id: "2",
-    title: "AI Chat Application",
-    description: "Real-time chat with AI integration using OpenAI",
-    technologies: ["React", "Node.js", "OpenAI"],
+    title: "Client portal redesign",
+    description: "A clear, responsive workspace for a growing services team",
+    technologies: ["Next.js", "TypeScript", "PostgreSQL"],
     image: "/placeholder-project.jpg",
     liveUrl: "#",
     githubUrl: "#",

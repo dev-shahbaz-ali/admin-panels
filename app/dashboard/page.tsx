@@ -17,7 +17,7 @@ import {
   Users,
   Eye,
   Calendar,
-  Sparkles,
+  ShieldCheck,
 } from "lucide-react";
 import StatsCard from "@/components/common/StatsCard";
 import ActivityChart from "@/components/dashboard/ActivityChart";
@@ -47,7 +47,7 @@ const recentActivities = [
   {
     id: 1,
     type: "project",
-    title: "New project added: AI Chat Application",
+    title: "New project added: Client portal redesign",
     time: "10 minutes ago",
     icon: FolderGit2,
     color: "blue",
@@ -461,7 +461,7 @@ export default function Dashboard() {
           </div>
           <div className="flex items-center gap-2 text-sm text-gray-400">
             <div className="p-1 bg-yellow-600 rounded">
-              <Sparkles className="h-4 w-4 text-white" />
+              <ShieldCheck className="h-4 w-4 text-white" />
             </div>
             All systems operational
           </div>

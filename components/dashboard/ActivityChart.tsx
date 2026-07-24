@@ -20,16 +20,16 @@ export default function ActivityChart({ data }: ActivityChartProps) {
     <div className="h-[300px] w-full">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-          <XAxis dataKey="name" stroke="#6B7280" />
-          <YAxis stroke="#6B7280" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+          <XAxis dataKey="name" stroke="#94a3b8" />
+          <YAxis stroke="#94a3b8" />
           <Tooltip
             contentStyle={{
-              backgroundColor: "#1F2937",
-              border: "1px solid #374151",
+              backgroundColor: "#ffffff",
+              border: "1px solid #e2e8f0",
               borderRadius: "8px",
             }}
-            labelStyle={{ color: "#9CA3AF" }}
+            labelStyle={{ color: "#64748b" }}
           />
           <Area
             type="monotone"

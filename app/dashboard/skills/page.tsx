@@ -35,7 +35,6 @@ import {
   Braces,
   Rocket,
   Book,
-  Sparkles,
 } from "lucide-react";
 import AddSkillModal from "@/components/skills/AddSkillModal";
 import SkillCard from "@/components/skills/SkillCard";

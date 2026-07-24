@@ -13,7 +13,7 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
-  Sparkles,
+  BriefcaseBusiness,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -50,11 +50,11 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
               <div className="flex items-center justify-between p-4 border-b border-gray-700">
                 <div className="flex items-center gap-2">
                   <div className="p-2 bg-blue-600 rounded-lg">
-                    <Sparkles className="h-6 w-6 text-white" />
+                    <BriefcaseBusiness className="h-6 w-6 text-white" />
                   </div>
                   <div>
                     <h1 className="text-lg font-bold text-white">
-                      Admin Panel
+                      Portfolio Office
                     </h1>
                     <p className="text-xs text-gray-400">Portfolio Manager</p>
                   </div>
