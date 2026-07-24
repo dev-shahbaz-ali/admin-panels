@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar, Tag, Edit, Trash2, Eye, EyeOff } from "lucide-react";
+import { Calendar, Tag, Edit, Trash2, Eye, EyeOff, FileText } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 
 interface BlogCardProps {
@@ -29,7 +29,7 @@ export default function BlogCard({ blog, onEdit, onDelete, onTogglePublish }: Bl
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <span className="text-4xl font-bold text-gray-600">📝</span>
+            <FileText className="h-12 w-12 text-blue-500" aria-hidden="true" />
           </div>
         )}
         

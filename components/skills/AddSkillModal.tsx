@@ -215,7 +215,7 @@ export default function AddSkillModal({
                   name="icon"
                   value={formData.icon}
                   onChange={handleInputChange}
-                  placeholder="e.g., ⚛️, 📱, 🎨"
+                    placeholder="e.g., React, Figma, Docker"
                   className="w-full px-4 py-2.5 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-all"
                 />
                 <p className="text-xs text-gray-500 mt-1">Add an emoji or icon to represent your skill</p>

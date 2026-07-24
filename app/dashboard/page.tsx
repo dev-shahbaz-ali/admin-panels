@@ -18,6 +18,7 @@ import {
   Eye,
   Calendar,
   ShieldCheck,
+  BarChart3,
 } from "lucide-react";
 import StatsCard from "@/components/common/StatsCard";
 import ActivityChart from "@/components/dashboard/ActivityChart";
@@ -200,7 +201,7 @@ export default function Dashboard() {
           </div>
           <div className="flex items-center gap-3 mt-1">
             <p className="text-gray-400">
-              {greeting}, John! 👋 Here's what's happening with your portfolio.
+              {greeting}, John. Here&apos;s what&apos;s happening with your portfolio.
             </p>
             <span className="text-xs text-gray-500 flex items-center gap-1">
               <Clock className="h-3 w-3" />
@@ -467,9 +468,9 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="flex items-center gap-4 text-sm text-gray-500">
-          <span>📊 Data updates in real-time</span>
-          <span>•</span>
-          <span>🔄 Auto-refresh every 30s</span>
+          <span className="inline-flex items-center gap-1"><BarChart3 className="h-3.5 w-3.5 text-blue-500" /> Data updates in real time</span>
+          <span aria-hidden="true">•</span>
+          <span className="inline-flex items-center gap-1"><RefreshCw className="h-3.5 w-3.5 text-blue-500" /> Auto-refresh every 30 seconds</span>
         </div>
       </div>
     </motion.div>
