@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
+import { motion } from "framer-motion";
 import {
   LayoutDashboard,
   FolderGit2,
@@ -14,6 +15,7 @@ import {
   ChevronLeft,
   ChevronRight,
   BriefcaseBusiness,
+  Menu,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -34,93 +36,105 @@ interface SidebarProps {
 export default function Sidebar({ open, setOpen }: SidebarProps) {
   const pathname = usePathname();
 
+  useEffect(() => {
+    if (window.innerWidth < 1024) setOpen(false);
+  }, [setOpen]);
+
   return (
     <>
-      <AnimatePresence>
-        {open && (
-          <motion.aside
-            initial={{ x: -280 }}
-            animate={{ x: 0 }}
-            exit={{ x: -280 }}
-            transition={{ type: "spring", damping: 20 }}
-            className="fixed left-0 top-0 z-50 h-screen w-64 bg-gray-800 border-r border-gray-700"
-          >
-            <div className="flex flex-col h-full">
-              {/* Logo */}
-              <div className="flex items-center justify-between p-4 border-b border-gray-700">
-                <div className="flex items-center gap-2">
-                  <div className="p-2 bg-blue-600 rounded-lg">
-                    <BriefcaseBusiness className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <h1 className="text-lg font-bold text-white">
-                      Portfolio Office
-                    </h1>
-                    <p className="text-xs text-gray-400">Portfolio Manager</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setOpen(false)}
-                  className="lg:hidden p-1 rounded-lg hover:bg-gray-700 transition-colors"
-                >
-                  <ChevronLeft className="h-5 w-5 text-gray-400" />
-                </button>
-              </div>
-
-              {/* Navigation */}
-              <nav className="flex-1 overflow-y-auto p-4">
-                <div className="space-y-1">
-                  {menuItems.map((item) => {
-                    const isActive = pathname === item.href;
-                    return (
-                      <Link key={item.href} href={item.href}>
-                        <motion.div
-                          whileHover={{ x: 4 }}
-                          whileTap={{ scale: 0.98 }}
-                          className={cn(
-                            "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200",
-                            isActive
-                              ? "bg-blue-600 text-white"
-                              : "text-gray-400 hover:text-white hover:bg-gray-700"
-                          )}
-                        >
-                          <item.icon className={cn(
-                            "h-5 w-5",
-                            isActive ? "text-white" : "text-gray-400"
-                          )} />
-                          <span className="text-sm font-medium">{item.label}</span>
-                          {isActive && (
-                            <motion.div
-                              layoutId="active-pill"
-                              className="ml-auto h-1.5 w-1.5 rounded-full bg-white"
-                            />
-                          )}
-                        </motion.div>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </nav>
-
-              {/* Footer */}
-              <div className="p-4 border-t border-gray-700">
-                <button className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-gray-700 transition-colors">
-                  <LogOut className="h-5 w-5" />
-                  <span className="text-sm font-medium">Logout</span>
-                </button>
-              </div>
-            </div>
-          </motion.aside>
-        )}
-      </AnimatePresence>
-
-      {/* Toggle button for small screens */}
-      {!open && (
-        <button
-          onClick={() => setOpen(true)}
-          className="fixed left-4 top-4 z-50 lg:hidden p-2 rounded-lg bg-gray-800 border border-gray-700 text-gray-400 hover:text-white transition-colors"
+      {open ? (
+        <motion.aside
+          initial={{ x: -280 }}
+          animate={{ x: 0 }}
+          transition={{ type: "spring", damping: 24, stiffness: 220 }}
+          className="fixed left-0 top-0 z-50 flex h-screen w-64 bg-white border-r border-gray-200 shadow-xl shadow-slate-200/40 lg:shadow-none"
         >
-          <ChevronRight className="h-5 w-5" />
+          <div className="flex min-h-0 w-full flex-col">
+            <div className="flex items-center justify-between border-b border-gray-200 p-4">
+              <Link href="/dashboard" className="flex min-w-0 items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm shadow-blue-600/20">
+                  <BriefcaseBusiness className="h-5 w-5" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block truncate text-sm font-bold text-gray-900">Portfolio Office</span>
+                  <span className="block truncate text-xs text-gray-500">Portfolio Manager</span>
+                </span>
+              </Link>
+              <button
+                type="button"
+                aria-label="Close navigation"
+                onClick={() => setOpen(false)}
+                className="rounded-lg p-2 text-gray-500 transition hover:bg-slate-100 hover:text-gray-900 lg:hidden"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+            </div>
+
+            <nav className="min-h-0 flex-1 overflow-y-auto p-3">
+              <p className="px-3 pb-2 pt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-gray-500">Workspace</p>
+              <div className="space-y-1">
+                {menuItems.map((item) => {
+                  const isActive = pathname === item.href;
+                  return (
+                    <Link key={item.href} href={item.href} title={item.label}>
+                      <motion.span
+                        whileHover={{ x: 3 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={cn(
+                          "flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors",
+                          isActive
+                            ? "bg-blue-600 text-white shadow-sm shadow-blue-600/20"
+                            : "text-gray-600 hover:bg-slate-100 hover:text-gray-900"
+                        )}
+                      >
+                        <item.icon className="h-[18px] w-[18px] shrink-0" />
+                        <span className="text-sm font-medium">{item.label}</span>
+                        {isActive && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-white" />}
+                      </motion.span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </nav>
+
+            <div className="border-t border-gray-200 p-3">
+              <button type="button" className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-gray-600 transition hover:bg-slate-100 hover:text-gray-900">
+                <LogOut className="h-[18px] w-[18px]" />
+                <span className="text-sm font-medium">Logout</span>
+              </button>
+            </div>
+          </div>
+        </motion.aside>
+      ) : (
+        <aside className="fixed left-0 top-0 z-40 hidden h-screen w-20 border-r border-gray-200 bg-white lg:flex lg:flex-col">
+          <div className="flex items-center justify-center border-b border-gray-200 p-4">
+            <button type="button" aria-label="Expand navigation" title="Expand navigation" onClick={() => setOpen(true)} className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm shadow-blue-600/20 transition hover:bg-blue-700">
+              <BriefcaseBusiness className="h-5 w-5" />
+            </button>
+          </div>
+          <nav className="flex-1 space-y-2 p-3">
+            {menuItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link key={item.href} href={item.href} title={item.label} aria-label={item.label}>
+                  <span className={cn("flex h-11 items-center justify-center rounded-xl transition-colors", isActive ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-slate-100 hover:text-gray-900")}>
+                    <item.icon className="h-[18px] w-[18px]" />
+                  </span>
+                </Link>
+              );
+            })}
+          </nav>
+          <div className="border-t border-gray-200 p-3">
+            <button type="button" title="Logout" aria-label="Logout" className="flex h-11 w-full items-center justify-center rounded-xl text-gray-600 transition hover:bg-slate-100 hover:text-gray-900">
+              <LogOut className="h-[18px] w-[18px]" />
+            </button>
+          </div>
+        </aside>
+      )}
+
+      {!open && (
+        <button type="button" aria-label="Open navigation" title="Open navigation" onClick={() => setOpen(true)} className="fixed left-4 top-4 z-50 flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-700 shadow-lg shadow-slate-300/30 transition hover:bg-slate-50 lg:hidden">
+          <Menu className="h-5 w-5" />
         </button>
       )}
     </>
